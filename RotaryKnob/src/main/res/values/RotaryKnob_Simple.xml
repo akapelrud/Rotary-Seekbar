@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RotaryKnob_Simple">
+        <item name="showTicks">true</item>
+        <item name="textSize">20sp</item>
+        <item name="ticks_color">#ff006699</item>
+        <item name="needle_color">#ff880000</item>
+        <item name="needle_radius">0.8</item>
+        <item name="ticks_minRadius">0.8</item>
+        <item name="ticks_maxRadius">1.0</item>
+        <item name="sector_maxRadius">0.75</item>
+        <item name="sector_minRadius">0.4</item>
+        <item name="valuePosition">3</item>
+    </style>
+</resources>
