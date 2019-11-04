@@ -1,8 +1,6 @@
 # Rotary Seekbar
 Rotary Seekbar View for Android with Overlay zooming making it easy to adjust a rotary knob while actually seeing what you are doing.
 
-**Please note**!  The repo has been renamed for searchability purposes, but the android library is still named RotaryKnob. This is subject to change in the future, definitely breaking the API.
-
 The library can be used by adding a few lines too your project's build.gradle file:  
 ```
 repositories {
