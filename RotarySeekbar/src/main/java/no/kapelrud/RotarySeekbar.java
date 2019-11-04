@@ -36,7 +36,7 @@ public class RotarySeekbar extends View {
     private static final int ROTATION_SNAP_BUFFER = 30;
         // Used when mSectorHalfOpening is small, to prevent jumping from max to min value too quick.
 
-    private final int DEFAULT_Seekbar_DIAMETER = 88;
+    private final int DEFAULT_SEEKBAR_DIAMETER = 88;
         // 96dp allowing for the standard 4dp padding on each side.
 
     private final int OPENING_TEXT_MARGIN = dpToPx(2);
@@ -439,7 +439,7 @@ public class RotarySeekbar extends View {
 
         //Log.d(TAG, "measurespecs: "+widthMode+", "+heightMode);
 
-        float radii = 0.5f*dpToPx(DEFAULT_Seekbar_DIAMETER);
+        float radii = 0.5f*dpToPx(DEFAULT_SEEKBAR_DIAMETER);
         switch(widthMode) {
             case MeasureSpec.EXACTLY:
                 w = specWidth;
@@ -462,8 +462,8 @@ public class RotarySeekbar extends View {
                         w = getSuggestedWidth(h-yPad, specWidth-xPad)+xPad;
                         break;
                     case MeasureSpec.AT_MOST:
-                        w = dpToPx(DEFAULT_Seekbar_DIAMETER)+xPad;
-                        h = dpToPx(DEFAULT_Seekbar_DIAMETER)+yPad;
+                        w = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+xPad;
+                        h = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+yPad;
                         switch(mValuePosition) {
                             case VALUEPOS_BOTTOM:
                             case VALUEPOS_TOP:
@@ -495,8 +495,8 @@ public class RotarySeekbar extends View {
                         w = getSuggestedWidth(h-yPad, Integer.MAX_VALUE-xPad)+xPad;
                         break;
                     case MeasureSpec.UNSPECIFIED:
-                        w = dpToPx(DEFAULT_Seekbar_DIAMETER)+xPad;
-                        h = dpToPx(DEFAULT_Seekbar_DIAMETER)+yPad;
+                        w = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+xPad;
+                        h = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+yPad;
                         switch(mValuePosition) {
                             case VALUEPOS_BOTTOM:
                             case VALUEPOS_TOP:
