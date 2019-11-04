@@ -24,7 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Rotary Knob Widget with zoom-on-touch for Android.
+ * Rotary Seekbar Widget with zoom-on-touch for Android.
  * Created by André on 18.02.2015.
  */
 public class RotarySeekbar extends View {
@@ -36,7 +36,7 @@ public class RotarySeekbar extends View {
     private static final int ROTATION_SNAP_BUFFER = 30;
         // Used when mSectorHalfOpening is small, to prevent jumping from max to min value too quick.
 
-    private final int DEFAULT_KNOB_DIAMETER = 88;
+    private final int DEFAULT_Seekbar_DIAMETER = 88;
         // 96dp allowing for the standard 4dp padding on each side.
 
     private final int OPENING_TEXT_MARGIN = dpToPx(2);
@@ -54,7 +54,7 @@ public class RotarySeekbar extends View {
     private float mTextWidth = 0.0f;
     private float mTextHeight = 0.0f;
 
-    private int mSectorRotation = 0; // degrees. Extra rotation of the knob. User set.
+    private int mSectorRotation = 0; // degrees. Extra rotation of the Seekbar. User set.
     private float mSectorHalfOpening = 30; // degrees
     private float mSectorMinRadiusScale = 0.4f;
     private float mSectorMaxRadiusScale = 0.75f;
@@ -98,9 +98,9 @@ public class RotarySeekbar extends View {
     private float mRotation = 0.0f;
     private float mAccumulatedAngleChange;
 
-    private RotarySeekbarDrawable mOverlayKnobProxy;
-    private RotarySeekbarImpl mLayedOutKnob;
-    private RotarySeekbarImpl mOverlayKnob;
+    private RotarySeekbarDrawable mOverlaySeekbarProxy;
+    private RotarySeekbarImpl mLayedOutSeekbar;
+    private RotarySeekbarImpl mOverlaySeekbar;
     private LayerDrawable mOverlay;
 
     private Paint mSectorPaint;
@@ -115,7 +115,7 @@ public class RotarySeekbar extends View {
     }
 
     public interface OnValueChangedListener {
-        void onValueChanged(RotarySeekbar sourceKnob, float value);
+        void onValueChanged(RotarySeekbar sourceSeekbar, float value);
     }
 
     public RotarySeekbar(Context context, AttributeSet attributeSet) {
@@ -192,10 +192,10 @@ public class RotarySeekbar extends View {
     private void init() {
         setLayerToSW(this);
 
-        mOverlayKnobProxy = new RotarySeekbarDrawable();
+        mOverlaySeekbarProxy = new RotarySeekbarDrawable();
         mOverlay = new LayerDrawable(new Drawable[]{
                 getResources().getDrawable(R.drawable.container_dropshadow),
-                mOverlayKnobProxy
+                mOverlaySeekbarProxy
         });
 
         checkValueBounds();
@@ -271,7 +271,7 @@ public class RotarySeekbar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(!mbScrolling)
-            mLayedOutKnob.draw(canvas);
+            mLayedOutSeekbar.draw(canvas);
     }
 
     @Override
@@ -280,7 +280,7 @@ public class RotarySeekbar extends View {
             return;
 
         // We
-        RectF bounds = mLayedOutKnob.getBounds();
+        RectF bounds = mLayedOutSeekbar.getBounds();
         float aspectRatio = bounds.width()/bounds.height();
         calculateOverlayBounds(aspectRatio);
 
@@ -289,7 +289,7 @@ public class RotarySeekbar extends View {
                 mOverlayGlobalBounds.width()-2*padding,
                 mOverlayGlobalBounds.height()-2*padding);
         float overlayRelativeScale = overlayBounds.width()/bounds.width();
-        mOverlayKnob = new RotarySeekbarImpl(overlayBounds, overlayRelativeScale);
+        mOverlaySeekbar = new RotarySeekbarImpl(overlayBounds, overlayRelativeScale);
         mOverlay.setBounds(mOverlayGlobalBounds);
     }
 
@@ -302,7 +302,7 @@ public class RotarySeekbar extends View {
 
         RectF bounds = new RectF(0, 0, ww, hh);
         bounds.offsetTo(getPaddingLeft(), getPaddingTop());
-        mLayedOutKnob = new RotarySeekbarImpl(bounds);
+        mLayedOutSeekbar = new RotarySeekbarImpl(bounds);
 
         // Overlay size is calculated on layout to get the proper global position of this view.
     }
@@ -376,9 +376,9 @@ public class RotarySeekbar extends View {
             case VALUEPOS_RIGHT:
             case VALUEPOS_LEFT:
                 int rw = width-(int)mTextWidth;
-                    // real width of knob
+                    // real width of Seekbar
                 h = Math.max((rw > 0 ? rw : 0), (int) mTextHeight);
-                    // biggest of knob width or text height
+                    // biggest of Seekbar width or text height
                 break;
         }
         if(h>maxHeight)
@@ -439,7 +439,7 @@ public class RotarySeekbar extends View {
 
         //Log.d(TAG, "measurespecs: "+widthMode+", "+heightMode);
 
-        float radii = 0.5f*dpToPx(DEFAULT_KNOB_DIAMETER);
+        float radii = 0.5f*dpToPx(DEFAULT_Seekbar_DIAMETER);
         switch(widthMode) {
             case MeasureSpec.EXACTLY:
                 w = specWidth;
@@ -462,8 +462,8 @@ public class RotarySeekbar extends View {
                         w = getSuggestedWidth(h-yPad, specWidth-xPad)+xPad;
                         break;
                     case MeasureSpec.AT_MOST:
-                        w = dpToPx(DEFAULT_KNOB_DIAMETER)+xPad;
-                        h = dpToPx(DEFAULT_KNOB_DIAMETER)+yPad;
+                        w = dpToPx(DEFAULT_Seekbar_DIAMETER)+xPad;
+                        h = dpToPx(DEFAULT_Seekbar_DIAMETER)+yPad;
                         switch(mValuePosition) {
                             case VALUEPOS_BOTTOM:
                             case VALUEPOS_TOP:
@@ -495,8 +495,8 @@ public class RotarySeekbar extends View {
                         w = getSuggestedWidth(h-yPad, Integer.MAX_VALUE-xPad)+xPad;
                         break;
                     case MeasureSpec.UNSPECIFIED:
-                        w = dpToPx(DEFAULT_KNOB_DIAMETER)+xPad;
-                        h = dpToPx(DEFAULT_KNOB_DIAMETER)+yPad;
+                        w = dpToPx(DEFAULT_Seekbar_DIAMETER)+xPad;
+                        h = dpToPx(DEFAULT_Seekbar_DIAMETER)+yPad;
                         switch(mValuePosition) {
                             case VALUEPOS_BOTTOM:
                             case VALUEPOS_TOP:
@@ -532,7 +532,7 @@ public class RotarySeekbar extends View {
                 getRootView().getOverlay().remove(mOverlay);
 
                 // Make sure we are drawing correctly, once the overlay is removed.
-                mLayedOutKnob.recreatePaths();
+                mLayedOutSeekbar.recreatePaths();
                 invalidate();
                 mbScrolling = false;
 
@@ -543,16 +543,16 @@ public class RotarySeekbar extends View {
         return result;
     }
 
-    public float getKnobRotation() {
+    public float getSeekbarRotation() {
         return mRotation;
     }
 
     public void addRotationChange(float deltaAlpha) {
         mAccumulatedAngleChange += deltaAlpha;
-        setKnobRotation(mRotation+mAccumulatedAngleChange);
+        setSeekbarRotation(mRotation+mAccumulatedAngleChange);
     }
 
-    public void setKnobRotation(float rotation) {
+    public void setSeekbarRotation(float rotation) {
         rotation = clampRotation(rotation);
         float oldRotation = mRotation;
             // make sure we are working with a rotation in [0,360] deg
@@ -591,13 +591,13 @@ public class RotarySeekbar extends View {
         updateText();
 
         if(!mbScrolling) {
-            if (mLayedOutKnob != null)
-                mLayedOutKnob.recreatePaths();
+            if (mLayedOutSeekbar != null)
+                mLayedOutSeekbar.recreatePaths();
             invalidate();
         }else {
-            if(mOverlayKnob != null)
-                mOverlayKnob.recreatePaths();
-            mOverlayKnobProxy.invalidateSelf();
+            if(mOverlaySeekbar != null)
+                mOverlaySeekbar.recreatePaths();
+            mOverlaySeekbarProxy.invalidateSelf();
         }
 
         if(mTrackValue && notify && mListener != null)
@@ -646,9 +646,9 @@ public class RotarySeekbar extends View {
         int rootWidth = root.getWidth();
         int rootHeight = root.getHeight();
 
-        // get knob center
-        /*int centerX = visibleRect.left + getPaddingLeft() + (int)(mLayedOutKnob.getBounds().width()*0.5f);
-        int centerY = visibleRect.top + getPaddingTop() + (int)(mLayedOutKnob.getBounds().height()*0.5f);//-statusBarHeight;
+        // get Seekbar center
+        /*int centerX = visibleRect.left + getPaddingLeft() + (int)(mLayedOutSeekbar.getBounds().width()*0.5f);
+        int centerY = visibleRect.top + getPaddingTop() + (int)(mLayedOutSeekbar.getBounds().height()*0.5f);//-statusBarHeight;
         */
 
         int centerX = visibleRect.centerX() + (getPaddingLeft()-getPaddingRight());
@@ -702,7 +702,7 @@ public class RotarySeekbar extends View {
             canvas.translate(bounds.left, bounds.top);
             int padding = dpToPx(OVERLAY_PADDING_DP);
             canvas.translate(padding, padding); // a little padding.
-            mOverlayKnob.draw(canvas);
+            mOverlaySeekbar.draw(canvas);
         }
 
         @Override
@@ -734,8 +734,8 @@ public class RotarySeekbar extends View {
             Rect visibleRect = new Rect();
             getGlobalVisibleRect(visibleRect);
 
-            final float cX = mOverlayGlobalBounds.left + dpToPx(OVERLAY_PADDING_DP) + mOverlayKnob.center().x;
-            final float cY = mOverlayGlobalBounds.top + dpToPx(OVERLAY_PADDING_DP) + mOverlayKnob.center().y;
+            final float cX = mOverlayGlobalBounds.left + dpToPx(OVERLAY_PADDING_DP) + mOverlaySeekbar.center().x;
+            final float cY = mOverlayGlobalBounds.top + dpToPx(OVERLAY_PADDING_DP) + mOverlaySeekbar.center().y;
             float vx = (e2.getX()+visibleRect.left) - cX;
             float vy = -((e2.getY()+visibleRect.top) - cY);
                 // invert y-coordinates so that up on the screen is positive y (wrt. the overlay center).
@@ -809,7 +809,7 @@ public class RotarySeekbar extends View {
         private Path mValuePath;
         private float mRadius;
         private RectF mBounds;
-        private PointF mKnobCenter;
+        private PointF mSeekbarCenter;
 
         private Paint mTextPaint;
         private Paint mNeedlePaint;
@@ -877,7 +877,7 @@ public class RotarySeekbar extends View {
                     break;
                 case VALUEPOS_RIGHT:
                     mTextPaint.setTextAlign(Paint.Align.LEFT);
-                    offset = getTextOffset(mTextHeight); // TODO, fix positioning of knob!
+                    offset = getTextOffset(mTextHeight); // TODO, fix positioning of Seekbar!
                     d = dH;
                     /*dW -= mTextWidth;
                     d = Math.min(dW, dH);
@@ -904,11 +904,11 @@ public class RotarySeekbar extends View {
             }
 
             mRadius = 0.5f*d;
-            mKnobCenter = new PointF(cX, cY);
+            mSeekbarCenter = new PointF(cX, cY);
             recreatePaths();
         }
 
-        public PointF center() { return mKnobCenter; }
+        public PointF center() { return mSeekbarCenter; }
         public float getRadius() { return mRadius; }
         public float getTextSize() { return mTextPaint.getTextSize(); }
         public RectF getBounds() { return mBounds; }
@@ -929,7 +929,7 @@ public class RotarySeekbar extends View {
             }
             if(mSectorRotation != 0)
                 rot += mSectorRotation;
-            canvas.rotate(rot, mKnobCenter.x, mKnobCenter.y);
+            canvas.rotate(rot, mSeekbarCenter.x, mSeekbarCenter.y);
 
             canvas.drawPath(mSectorPath, mSectorPaint);
             canvas.drawPath(mValuePath, mValueSectorPaint);
@@ -939,10 +939,10 @@ public class RotarySeekbar extends View {
                 float tickAngleIncrement = (float)Math.PI/180.0f*(360-2* mSectorHalfOpening)/(mNumTicks-1);
                 for(int i=0; i<mNumTicks; i++) {
                     canvas.drawLine(
-                            mKnobCenter.x+ mRadius *mTickMinRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
-                            mKnobCenter.y- mRadius *mTickMinRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
-                            mKnobCenter.x+ mRadius *mTickMaxRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
-                            mKnobCenter.y- mRadius *mTickMaxRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.x+ mRadius *mTickMinRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.y- mRadius *mTickMinRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.x+ mRadius *mTickMaxRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.y- mRadius *mTickMaxRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
                             mTicksPaint
                     );
                 }
@@ -950,14 +950,14 @@ public class RotarySeekbar extends View {
 
             if(mShowNeedle) {
                 final float needleAngle = mRotation * (float) Math.PI / 180.f; // convert to radians
-                canvas.drawLine(mKnobCenter.x, mKnobCenter.y,
-                        mKnobCenter.x + mRadius * mNeedleRadius * (float) Math.cos(needleAngle),
-                        mKnobCenter.y - mRadius * mNeedleRadius * (float) Math.sin(needleAngle),
+                canvas.drawLine(mSeekbarCenter.x, mSeekbarCenter.y,
+                        mSeekbarCenter.x + mRadius * mNeedleRadius * (float) Math.cos(needleAngle),
+                        mSeekbarCenter.y - mRadius * mNeedleRadius * (float) Math.sin(needleAngle),
                         mNeedlePaint
                 );
             }
 
-            canvas.rotate(-rot, mKnobCenter.x, mKnobCenter.y);
+            canvas.rotate(-rot, mSeekbarCenter.x, mSeekbarCenter.y);
 
             // draw the value text
             if(mShowValue)
@@ -998,7 +998,7 @@ public class RotarySeekbar extends View {
 
             Matrix matrix = new Matrix();
             matrix.postScale(mRadius, mRadius);
-            matrix.postTranslate(mKnobCenter.x, mKnobCenter.y);
+            matrix.postTranslate(mSeekbarCenter.x, mSeekbarCenter.y);
             path.transform(matrix);
 
             return path;
