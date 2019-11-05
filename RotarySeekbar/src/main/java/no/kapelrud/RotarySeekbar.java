@@ -279,7 +279,6 @@ public class RotarySeekbar extends View {
         if(!changed)
             return;
 
-        // We
         RectF bounds = mLayedOutSeekbar.getBounds();
         float aspectRatio = bounds.width()/bounds.height();
         calculateOverlayBounds(aspectRatio);
@@ -514,12 +513,6 @@ public class RotarySeekbar extends View {
                 }
                 break;
         }
-        /*int w = MEASURED_SIZE_MASK & resolveSizeAndState(minw, widthMeasureSpec, 1);
-        int minh = getPaddingBottom()+getPaddingTop()+w;
-        if(mValuePosition == VALUEPOS_BOTTOM || mValuePosition == VALUEPOS_TOP)
-            minh += mTextHeight;
-        //int h = Math.min(MeasureSpec.getSize(heightMeasureSpec),minh);
-        int h = MEASURED_SIZE_MASK & resolveSizeAndState(minh, heightMeasureSpec, 1);*/
 
         setMeasuredDimension(w, h);
     }
@@ -637,19 +630,10 @@ public class RotarySeekbar extends View {
         // Global coordinates of this RotarySeekbar:
         Rect visibleRect = new Rect();
         getGlobalVisibleRect(visibleRect);
-        /*int statusBarHeight = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if(resourceId > 0)
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);*/
 
         View root = getRootView();
         int rootWidth = root.getWidth();
         int rootHeight = root.getHeight();
-
-        // get Seekbar center
-        /*int centerX = visibleRect.left + getPaddingLeft() + (int)(mLayedOutSeekbar.getBounds().width()*0.5f);
-        int centerY = visibleRect.top + getPaddingTop() + (int)(mLayedOutSeekbar.getBounds().height()*0.5f);//-statusBarHeight;
-        */
 
         int centerX = visibleRect.centerX() + (getPaddingLeft()-getPaddingRight());
         int centerY = visibleRect.centerY() + (getPaddingTop()-getPaddingBottom());
@@ -879,14 +863,11 @@ public class RotarySeekbar extends View {
                     mTextPaint.setTextAlign(Paint.Align.LEFT);
                     offset = getTextOffset(mTextHeight); // TODO, fix positioning of Seekbar!
                     d = dH;
-                    /*dW -= mTextWidth;
-                    d = Math.min(dW, dH);
-                    cX -= 0.5f * mTextWidth;*/
                     if (offset > 0.5f * d)
                         offset = 0.5f * d;
                     cX -= 0.5f * (mTextWidth+offset-0.5f*d);
                     mTextX = cX + offset;
-                    mTextY = cY - mTextPaint.getFontMetrics().ascent / 2;
+                    mTextY = cY - mTextPaint.getFontMetrics().ascent/2;
                     break;
                 case VALUEPOS_LEFT:
                     mTextPaint.setTextAlign(Paint.Align.RIGHT);
@@ -894,9 +875,6 @@ public class RotarySeekbar extends View {
                     d = dH;
                     if(offset > 0.5f*d)
                         offset = 0.5f*d;
-                    /*dW -= mTextWidth;
-                    d = Math.min(dW, dH);*/
-
                     cX += 0.5f * (mTextWidth+offset-0.5f*d);
                     mTextX = cX-offset;
                     mTextY = cY-mTextPaint.getFontMetrics().ascent/2;
@@ -958,8 +936,6 @@ public class RotarySeekbar extends View {
             }
 
             canvas.rotate(-rot, mSeekbarCenter.x, mSeekbarCenter.y);
-
-            // draw the value text
             if(mShowValue)
                 canvas.drawText(mValueStr, mTextX, mTextY, mTextPaint);
         }
