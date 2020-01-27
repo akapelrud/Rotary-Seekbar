@@ -214,7 +214,7 @@ public class RotarySeekbar extends View {
         mSectorPaint.setColor(mSectorColor);
         mValueSectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mValueSectorPaint.setStyle(Paint.Style.FILL);
-        mSectorPaint.setColor(mValueSectorColor);
+        mValueSectorPaint.setColor(mValueSectorColor);
 
         mDetector = new GestureDetector(RotarySeekbar.this.getContext(), new mGestureListener());
         mDetector.setIsLongpressEnabled(false);
