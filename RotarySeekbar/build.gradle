@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.akapelrud'
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -10,7 +14,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'no.kapelrud'
     PUBLISH_ARTIFACT_ID = 'RotarySeekbar'
-    PUBLISH_VERSION = '0.2.0'
+    PUBLISH_VERSION = '0.2.1'
 }
 
 android {
@@ -26,7 +30,7 @@ android {
 }
 
 // ./gradlew clean build generateRelease
-apply plugin: 'maven'
+/*apply plugin: 'maven'
 
 def groupId = project.PUBLISH_GROUP_ID
 def artifactId = project.PUBLISH_ARTIFACT_ID
@@ -79,4 +83,6 @@ generateRelease.dependsOn(zipRelease)
 artifacts {
     archives androidSourcesJar
     archives androidJavadocsJar
-}
+}*/
+
+apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
