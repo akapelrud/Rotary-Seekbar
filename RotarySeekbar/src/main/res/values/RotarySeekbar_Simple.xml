@@ -10,6 +10,6 @@
         <item name="ticks_maxRadius">1.0</item>
         <item name="sector_maxRadius">0.75</item>
         <item name="sector_minRadius">0.4</item>
-        <item name="valuePosition">3</item>
+        <item name="valuePosition">bottom</item>
     </style>
 </resources>

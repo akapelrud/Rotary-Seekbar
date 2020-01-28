@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RotarySeekbar">
+
         <attr name="showValue" format="boolean" />
         <attr name="showUnit" format="boolean" />
         <attr name="unit" format="string" />
@@ -10,7 +11,16 @@
         <attr name="value" format="float" />
         <attr name="numSteps" format="integer" />
         <attr name="valueColor" format="color" />
-        <attr name="valuePosition" format="integer" />
+
+        <!-- Placement of value indicator relative to the rotation center -->
+        <attr name="valuePosition" format="enum">
+            <enum name="bottom" value="0" />
+            <enum name="left" value="1" />
+            <enum name="top" value="2" />
+            <enum name="right" value="3" />
+            <enum name="center" value="4" />
+        </attr>
+
         <attr name="textSize" format="dimension" />
 
         <attr name="trackValue" format="boolean" />
