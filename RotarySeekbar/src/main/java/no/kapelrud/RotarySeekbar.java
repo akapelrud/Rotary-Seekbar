@@ -57,9 +57,9 @@ public class RotarySeekbar extends View {
     private int mSectorRotation = 0; // degrees. Extra rotation of the Seekbar. User set.
     private float mSectorHalfOpening = 30; // degrees
     private float mSectorMinRadiusScale = 0.4f;
-    private float mSectorMaxRadiusScale = 0.75f;
+    private float mSectorMajRadiusScale = 0.75f;
     private float mTickMinRadiusScale = 0.8f;
-    private float mTickMaxRadiusScale = 1.0f;
+    private float mTickMajRadiusScale = 1.0f;
 
     private boolean mShowValue = true;
     private boolean mShowNeedle = true;
@@ -153,15 +153,15 @@ public class RotarySeekbar extends View {
 
             mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sector_openAngle, 2.0f*mSectorHalfOpening);
             mSectorRotation = a.getInt(R.styleable.RotarySeekbar_sector_rotation, mSectorRotation);
-            mSectorMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sector_minRadius, mSectorMinRadiusScale);
-            mSectorMaxRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sector_maxRadius, mSectorMaxRadiusScale);
+            mSectorMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sector_minorRadius, mSectorMinRadiusScale);
+            mSectorMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sector_majorRadius, mSectorMajRadiusScale);
             mSectorColor = a.getColor(R.styleable.RotarySeekbar_sector_backgroundColor, mSectorColor);
             mValueSectorColor = a.getColor(R.styleable.RotarySeekbar_sector_foregroundColor, mValueSectorColor);
 
             mShowTicks = a.getBoolean(R.styleable.RotarySeekbar_showTicks, mShowTicks);
             mSubtractTicks = a.getBoolean(R.styleable.RotarySeekbar_subtractTicks, mSubtractTicks);
-            mTickMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticks_minRadius, mTickMinRadiusScale);
-            mTickMaxRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticks_maxRadius, mTickMaxRadiusScale);
+            mTickMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticks_minorRadius, mTickMinRadiusScale);
+            mTickMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticks_majorRadius, mTickMajRadiusScale);
             mTicksWidth = a.getDimension(R.styleable.RotarySeekbar_ticks_thickness, mTicksWidth);
             mTicksSubtractWidth = a.getDimension(R.styleable.RotarySeekbar_ticks_subtractionThickness, mTicksSubtractWidth);
             mTicksColor = a.getColor(R.styleable.RotarySeekbar_ticks_color, mTicksColor);
@@ -930,8 +930,8 @@ public class RotarySeekbar extends View {
                     canvas.drawLine(
                             mSeekbarCenter.x+ mRadius *mTickMinRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
                             mSeekbarCenter.y- mRadius *mTickMinRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
-                            mSeekbarCenter.x+ mRadius *mTickMaxRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
-                            mSeekbarCenter.y- mRadius *mTickMaxRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.x+ mRadius *mTickMajRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.y- mRadius *mTickMajRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
                             mTicksPaint
                     );
                 }
@@ -956,11 +956,11 @@ public class RotarySeekbar extends View {
 
             Path path = new Path();
             if(sweepAngle == 360) {
-                path.addOval(circleBounds(mSectorMaxRadiusScale), Path.Direction.CCW);
+                path.addOval(circleBounds(mSectorMajRadiusScale), Path.Direction.CCW);
                 path.addOval(circleBounds(mSectorMinRadiusScale), Path.Direction.CW);
             }else {
                 path.arcTo(circleBounds(mSectorMinRadiusScale), startAngle, sweepAngle);
-                path.arcTo(circleBounds(mSectorMaxRadiusScale), startAngle + sweepAngle, -sweepAngle);
+                path.arcTo(circleBounds(mSectorMajRadiusScale), startAngle + sweepAngle, -sweepAngle);
                 path.close();
             }
 

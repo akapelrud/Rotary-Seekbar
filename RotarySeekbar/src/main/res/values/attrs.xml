@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RotarySeekbar">
-
         <attr name="showValue" format="boolean" />
         <attr name="showUnit" format="boolean" />
+
+        <!-- Unit string to append to the value. Only shown if showUnit is true -->
         <attr name="unit" format="string" />
+
+        <!-- Number of digits after . to display -->
         <attr name="numDigits" format="integer" />
+
+        <!-- Minimal value of Seekbar -->
         <attr name="minValue" format="float" />
+        <!-- Maximum value of Seekbar -->
         <attr name="maxValue" format="float" />
+
+        <!-- Default value -->
         <attr name="value" format="float" />
+
+        <!-- Number of steps starting at minValue to get to maxValue, i.e. numSteps=#values-1 -->
         <attr name="numSteps" format="integer" />
+
+        <!-- textColor -->
         <attr name="valueColor" format="color" />
 
         <!-- Placement of value indicator relative to the rotation center -->
@@ -21,29 +33,64 @@
             <enum name="center" value="4" />
         </attr>
 
+        <!-- size of value text -->
         <attr name="textSize" format="dimension" />
 
+        <!-- Notify listeners of live changes -->
         <attr name="trackValue" format="boolean" />
 
+        <!-- The opening angle of the value selection section. Set to 0 for a full circle knob -->
         <attr name="sector_openAngle" format="float" />
+
+        <!-- Rotation of sector opening around center in degrees; 0²:corresponds to opening towards
+        the bottom, 90²:towards the left, 180²:towards the top, 270²:towards the right -->
         <attr name="sector_rotation" format="integer" />
-        <attr name="sector_minRadius" format="float" />
-        <attr name="sector_maxRadius" format="float" />
+
+        <!-- Sets the minor radius of the sector arc, relative to the size of the view. -->
+        <attr name="sector_minorRadius" format="float" />
+        <!-- Sets the major radius of the sector arc, relative to the size of the view. -->
+        <attr name="sector_majorRadius" format="float" />
+
+        <!-- The indication color of the swept arc from the current value to the max value -->
         <attr name="sector_backgroundColor" format="color" />
+
+        <!-- The primary indication color of the swept arc from minValue to the current value -->
         <attr name="sector_foregroundColor" format="color" />
 
+        <!-- Enable radial ticks -->
         <attr name="showTicks" format="boolean" />
-        <attr name="subtractTicks" format="boolean" />
-        <attr name="ticks_minRadius" format="float" />
-        <attr name="ticks_maxRadius" format="float" />
+
+        <!-- The minor radius of the radial tick lines -->
+        <attr name="ticks_minorRadius" format="float" />
+        <!-- The major radius of the radial tick lines -->
+        <attr name="ticks_majorRadius" format="float" />
+
+        <!-- The indication color used for the ticks -->
         <attr name="ticks_color" format="color" />
+
+        <!-- Thickness of the radial tick lines -->
         <attr name="ticks_thickness" format="dimension" />
+
+        <!-- Subtract the tick radial lines from the sectors, can be used to create negative space
+        around ticks or in combination with ticks -->
+        <attr name="subtractTicks" format="boolean" />
+
+        <!-- The thickness of the tick lines subtraction -->
         <attr name="ticks_subtractionThickness" format="dimension" />
+
+        <!-- Number of ticks to paint around the value sector. -->
         <attr name="numTicks" format="integer" />
 
+        <!-- Enable painting of indicator needle -->
         <attr name="showNeedle" format="boolean" />
+
+        <!-- The color of the needle -->
         <attr name="needle_color" format="color" />
+
+        <!-- The tickness of the needle line -->
         <attr name="needle_thickness" format="dimension" />
+
+        <!-- The major radius of the needle indicator line. -->
         <attr name="needle_radius" format="float" />
     </declare-styleable>
 </resources>
