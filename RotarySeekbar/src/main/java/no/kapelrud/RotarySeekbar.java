@@ -145,9 +145,15 @@ public class RotarySeekbar extends View {
             mUnitStr = a.getString(R.styleable.RotarySeekbar_unit);
             mMinValue = a.getFloat(R.styleable.RotarySeekbar_minValue, mMinValue);
             mMaxValue = a.getFloat(R.styleable.RotarySeekbar_maxValue, mMaxValue);
+            assert(mMinValue != mMaxValue);
+
             mValue = a.getFloat(R.styleable.RotarySeekbar_value, mValue);
             mValuePosition = ValuePosition.fromId(a.getInt(R.styleable.RotarySeekbar_valuePosition, ValuePosition.Bottom.id));
+
             mNumSteps = a.getInteger(R.styleable.RotarySeekbar_numSteps, mNumSteps);
+            if (mNumSteps < 1)
+                mNumSteps = 1;
+
             mTextColor = a.getColor(R.styleable.RotarySeekbar_valueColor, mTextColor);
             mTextSize = a.getDimension(R.styleable.RotarySeekbar_textSize, mTextSize);
 
