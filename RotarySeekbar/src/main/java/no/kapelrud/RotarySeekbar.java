@@ -342,7 +342,7 @@ public class RotarySeekbar extends View {
         switch(mValuePosition) {
             case Bottom:
             case Top:
-                res = (int)mTextHeight+getSuggestedMinimumWidth();
+                res = (int)(mShowValue?mTextHeight:0)+getSuggestedMinimumWidth();
                 break;
             case Center:
             case Right:
@@ -359,14 +359,17 @@ public class RotarySeekbar extends View {
         switch(mValuePosition) {
             case Bottom:
             case Top:
-                res = (int)mTextWidth;
+                if(mShowValue)
+                    res = (int)mTextWidth;
+                else
+                    res = getSuggestedMinimumHeight();
                 break;
             case Center:
                 res = getSuggestedMinimumHeight();
                 break;
             case Right:
             case Left:
-                res = (int)mTextWidth+getSuggestedMinimumHeight();
+                res = (int)(mShowValue ? mTextWidth:0)+getSuggestedMinimumHeight();
                 break;
         }
         return res;
@@ -383,20 +386,24 @@ public class RotarySeekbar extends View {
             return 0;
 
         int h = width;
-        switch(mValuePosition) {
+        switch (mValuePosition) {
             case Center:
                 // Do nothing, try to have same height as width
                 break;
             case Bottom:
             case Top:
-                h += (int)mTextHeight;
+                if(mShowValue)
+                    h += (int) mTextHeight;
                 break;
             case Right:
             case Left:
-                int rw = width-(int)mTextWidth;
+                if(mShowValue) {
+                    int rw = width - (int) mTextWidth;
                     // real width of Seekbar
-                h = Math.max((rw > 0 ? rw : 0), (int) mTextHeight);
+                    h = Math.max((rw > 0 ? rw : 0), (int) mTextHeight);
                     // biggest of Seekbar width or text height
+                }else
+                    h = width;
                 break;
         }
         if(h>maxHeight)
@@ -419,23 +426,29 @@ public class RotarySeekbar extends View {
             return 0;
 
         int w = height;
-        switch(mValuePosition) {
+        switch (mValuePosition) {
             case Center:
                 // Do nothing, try to have same width as height
                 break;
             case Bottom:
             case Top:
-                int rh = height-(int)mTextHeight;
-                w = Math.max((rh > 0 ? rh:0), (int)mTextHeight);
+                if(mShowValue) {
+                    int rh = height - (int) mTextHeight;
+                    w = Math.max((rh > 0 ? rh : 0), (int) mTextHeight);
+                }
                 break;
             case Right:
             case Left:
-                float offset = getTextOffset(mTextSize);
-                if(offset >  0.5f*w)
-                    offset = 0.5f*w;
-                w += (int)(mTextWidth+offset-w/2);
+                if(mShowValue) {
+                    float offset = getTextOffset(mTextSize);
+                    if (offset > 0.5f * w)
+                        offset = 0.5f * w;
+                    w += (int) (mTextWidth + offset - 0.5f*w);
+                }else
+                    w *= 0.5f;
                 break;
         }
+
         if(w>maxWidth)
             w = maxWidth;
         return w;
@@ -454,7 +467,6 @@ public class RotarySeekbar extends View {
 
         int w=0;
         int h=0;
-
         //Log.d(TAG, "measurespecs: "+widthMode+", "+heightMode);
 
         float radii = 0.5f*dpToPx(DEFAULT_SEEKBAR_DIAMETER);
@@ -477,24 +489,11 @@ public class RotarySeekbar extends View {
                 switch(heightMode) {
                     case MeasureSpec.EXACTLY:
                         h = specHeight;
-                        w = getSuggestedWidth(h-yPad, specWidth-xPad)+xPad;
+                        w = getSuggestedWidth(h - yPad, specWidth - xPad) + xPad;
                         break;
                     case MeasureSpec.AT_MOST:
-                        w = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+xPad;
-                        h = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+yPad;
-                        switch(mValuePosition) {
-                            case Bottom:
-                            case Top:
-                                h += mTextHeight;
-                                break;
-                            case Right:
-                            case Left:
-                                float offset = radii - getTextOffset(mTextHeight);
-                                if(offset < 0.0f)
-                                    offset = 0.0f;
-                                w += mTextWidth+offset;
-                                break;
-                        }
+                        h = dpToPx(DEFAULT_SEEKBAR_DIAMETER) + yPad;
+                        w = getSuggestedWidth(h - yPad, specWidth - xPad) + xPad;
                         break;
                     case MeasureSpec.UNSPECIFIED:
                         w = specWidth;
@@ -509,25 +508,12 @@ public class RotarySeekbar extends View {
                         w = getSuggestedWidth(h-yPad, Integer.MAX_VALUE-xPad)+xPad;
                         break;
                     case MeasureSpec.AT_MOST:
-                        h = specHeight;
+                        h = dpToPx(DEFAULT_SEEKBAR_DIAMETER) + yPad;
                         w = getSuggestedWidth(h-yPad, Integer.MAX_VALUE-xPad)+xPad;
                         break;
                     case MeasureSpec.UNSPECIFIED:
-                        w = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+xPad;
                         h = dpToPx(DEFAULT_SEEKBAR_DIAMETER)+yPad;
-                        switch(mValuePosition) {
-                            case Bottom:
-                            case Top:
-                                h += mTextHeight;
-                                break;
-                            case Right:
-                            case Left:
-                                float offset = radii - getTextOffset(mTextHeight);
-                                if(offset < 0.0f)
-                                    offset = 0.0f;
-                                w += mTextWidth+offset;
-                                break;
-                        }
+                        w = getSuggestedWidth(h-yPad, Integer.MAX_VALUE-xPad)+xPad;
                         break;
                 }
                 break;
@@ -646,7 +632,7 @@ public class RotarySeekbar extends View {
     }
 
     private void calculateOverlayBounds(float aspectRatio) {
-        // Global coordinates of this RotarySeekbar:
+        // TODO: fix vertical offset when fullscreen?
         Rect visibleRect = new Rect();
         getGlobalVisibleRect(visibleRect);
 
@@ -853,51 +839,54 @@ public class RotarySeekbar extends View {
             float cX = bounds.centerX();
             float cY = bounds.centerY();
 
-            float d = 0f;
+            float d = Math.min(dW, dH);
             float offset = 0.0f;
-            switch(mValuePosition) {
-                case Center:
-                    mTextPaint.setTextAlign(Paint.Align.CENTER);
-                    d = Math.min(dW, dH);
-                    mTextX = cX;
-                    mTextY = cY-mTextPaint.getFontMetrics().ascent/2;
-                    break;
-                case Bottom:
-                    mTextPaint.setTextAlign(Paint.Align.CENTER);
-                    dH -= mTextHeight;
-                    d = Math.min(dW, dH);
-                    cY -= 0.5f*mTextHeight;
-                    mTextX = cX;
-                    mTextY = cY+0.5f*d-mTextPaint.getFontMetrics().ascent;
-                    break;
-                case Top:
-                    mTextPaint.setTextAlign(Paint.Align.CENTER);
-                    dH -= mTextHeight;
-                    d = Math.min(dW, dH);
-                    cY += 0.5f*mTextHeight;
-                    mTextX = cX;
-                    mTextY = cY-0.5f*d+mTextPaint.getFontMetrics().descent;
-                    break;
-                case Right:
-                    mTextPaint.setTextAlign(Paint.Align.LEFT);
-                    offset = getTextOffset(mTextHeight); // TODO, fix positioning of Seekbar!
-                    d = dH;
-                    if (offset > 0.5f * d)
-                        offset = 0.5f * d;
-                    cX -= 0.5f * (mTextWidth+offset-0.5f*d);
-                    mTextX = cX + offset;
-                    mTextY = cY - mTextPaint.getFontMetrics().ascent/2;
-                    break;
-                case Left:
-                    mTextPaint.setTextAlign(Paint.Align.RIGHT);
-                    offset = getTextOffset(mTextHeight);
-                    d = dH;
-                    if(offset > 0.5f*d)
-                        offset = 0.5f*d;
-                    cX += 0.5f * (mTextWidth+offset-0.5f*d);
-                    mTextX = cX-offset;
-                    mTextY = cY-mTextPaint.getFontMetrics().ascent/2;
-                    break;
+
+            if(mShowValue) {
+                switch (mValuePosition) {
+                    case Center:
+                        mTextPaint.setTextAlign(Paint.Align.CENTER);
+                        mTextX = cX;
+                        mTextY = cY - .5f*(mTextPaint.getFontMetrics().descent+mTextPaint.getFontMetrics().ascent);
+                        break;
+                    case Bottom:
+                        mTextPaint.setTextAlign(Paint.Align.CENTER);
+                        dH -= mTextHeight;
+                        d = Math.min(dW, dH);
+                        cY -= 0.5f * mTextHeight;
+                        mTextX = cX;
+                        mTextY = cY + 0.5f * d - (mTextPaint.getFontMetrics().descent+mTextPaint.getFontMetrics().ascent);
+                        break;
+                    case Top:
+                        mTextPaint.setTextAlign(Paint.Align.CENTER);
+                        dH -= mTextHeight;
+                        d = Math.min(dW, dH);
+                        cY += 0.5f * mTextHeight;
+                        mTextX = cX;
+                        mTextY = cY - 0.5f * d - mTextPaint.getFontMetrics().descent;
+                            //descent is negative
+                        break;
+                    case Right:
+                        mTextPaint.setTextAlign(Paint.Align.LEFT);
+                        offset = getTextOffset(mTextHeight); // TODO, fix positioning of Seekbar!
+                        d = dH;
+                        if (offset > 0.5f * d)
+                            offset = 0.5f * d;
+                        cX -= 0.5f * (mTextWidth + offset - 0.5f * d);
+                        mTextX = cX + offset;
+                        mTextY = cY - .5f*(mTextPaint.getFontMetrics().descent+mTextPaint.getFontMetrics().ascent);
+                        break;
+                    case Left:
+                        mTextPaint.setTextAlign(Paint.Align.RIGHT);
+                        offset = getTextOffset(mTextHeight);
+                        d = dH;
+                        if (offset > 0.5f * d)
+                            offset = 0.5f * d;
+                        cX += 0.5f * (mTextWidth + offset - 0.5f * d);
+                        mTextX = cX - offset;
+                        mTextY = cY - .5f*(mTextPaint.getFontMetrics().descent+mTextPaint.getFontMetrics().ascent);
+                        break;
+                }
             }
 
             mRadius = 0.5f*d;
