@@ -4,25 +4,16 @@
         <attr name="showValue" format="boolean" />
         <attr name="showUnit" format="boolean" />
 
-        <!-- Unit string to append to the value. Only shown if showUnit is true -->
-        <attr name="unit" format="string" />
-
-        <!-- Number of digits after . to display -->
-        <attr name="numDigits" format="integer" />
-
-        <!-- Minimal value of Seekbar -->
-        <attr name="minValue" format="float" />
-        <!-- Maximum value of Seekbar -->
-        <attr name="maxValue" format="float" />
-
         <!-- Default value -->
         <attr name="value" format="float" />
-
+        <!-- Minimal value of Seekbar -->
+        <attr name="valueMin" format="float" />
+        <!-- Maximum value of Seekbar -->
+        <attr name="valueMax" format="float" />
         <!-- Number of steps starting at minValue to get to maxValue, i.e. numSteps=#values-1 -->
-        <attr name="numSteps" format="integer" />
-
-        <!-- textColor -->
-        <attr name="valueColor" format="color" />
+        <attr name="valueNumSteps" format="integer" />
+        <!-- Number of digits after . to display -->
+        <attr name="valueNumDigits" format="integer" />
 
         <!-- Placement of value indicator relative to the rotation center -->
         <attr name="valuePosition" format="enum">
@@ -33,50 +24,55 @@
             <enum name="center" value="4" />
         </attr>
 
+        <!-- Unit string to append to the value. Only shown if showUnit is true -->
+        <attr name="unit" format="string" />
+
         <!-- size of value text -->
         <attr name="textSize" format="dimension" />
+        <!-- The textColor user for the value -->
+        <attr name="textColor" format="color" />
 
         <!-- Notify listeners of live changes -->
         <attr name="trackValue" format="boolean" />
 
         <!-- The opening angle of the value selection section. Set to 0 for a full circle knob -->
-        <attr name="sector_openAngle" format="float" />
+        <attr name="sectorOpenAngle" format="float" />
 
         <!-- Rotation of sector opening around center in degrees; 0²:corresponds to opening towards
         the bottom, 90²:towards the left, 180²:towards the top, 270²:towards the right -->
-        <attr name="sector_rotation" format="integer" />
+        <attr name="sectorRotation" format="integer" />
 
         <!-- Sets the minor radius of the sector arc, relative to the size of the view. -->
-        <attr name="sector_minorRadius" format="float" />
+        <attr name="sectorMinorRadius" format="float" />
         <!-- Sets the major radius of the sector arc, relative to the size of the view. -->
-        <attr name="sector_majorRadius" format="float" />
+        <attr name="sectorMajorRadius" format="float" />
 
         <!-- The indication color of the swept arc from the current value to the max value -->
-        <attr name="sector_backgroundColor" format="color" />
+        <attr name="sectorBackgroundColor" format="color" />
 
         <!-- The primary indication color of the swept arc from minValue to the current value -->
-        <attr name="sector_foregroundColor" format="color" />
+        <attr name="sectorForegroundColor" format="color" />
 
         <!-- Enable radial ticks -->
         <attr name="showTicks" format="boolean" />
 
         <!-- The minor radius of the radial tick lines -->
-        <attr name="ticks_minorRadius" format="float" />
+        <attr name="ticksMinorRadius" format="float" />
         <!-- The major radius of the radial tick lines -->
-        <attr name="ticks_majorRadius" format="float" />
+        <attr name="ticksMajorRadius" format="float" />
 
         <!-- The indication color used for the ticks -->
-        <attr name="ticks_color" format="color" />
+        <attr name="ticksColor" format="color" />
 
         <!-- Thickness of the radial tick lines -->
-        <attr name="ticks_thickness" format="dimension" />
+        <attr name="ticksThickness" format="dimension" />
 
         <!-- Subtract the tick radial lines from the sectors, can be used to create negative space
         around ticks or in combination with ticks -->
-        <attr name="subtractTicks" format="boolean" />
+        <attr name="ticksSubtract" format="boolean" />
 
         <!-- The thickness of the tick lines subtraction -->
-        <attr name="ticks_subtractionThickness" format="dimension" />
+        <attr name="ticksSubtractionThickness" format="dimension" />
 
         <!-- Number of ticks to paint around the value sector. -->
         <attr name="numTicks" format="integer" />
@@ -85,12 +81,12 @@
         <attr name="showNeedle" format="boolean" />
 
         <!-- The color of the needle -->
-        <attr name="needle_color" format="color" />
+        <attr name="needleColor" format="color" />
 
         <!-- The tickness of the needle line -->
-        <attr name="needle_thickness" format="dimension" />
+        <attr name="needleThickness" format="dimension" />
 
         <!-- The major radius of the needle indicator line. -->
-        <attr name="needle_radius" format="float" />
+        <attr name="needleRadius" format="float" />
     </declare-styleable>
 </resources>

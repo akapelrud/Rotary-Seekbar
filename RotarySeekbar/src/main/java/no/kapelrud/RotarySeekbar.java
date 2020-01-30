@@ -141,44 +141,44 @@ public class RotarySeekbar extends View {
         try{
             mShowValue = a.getBoolean(R.styleable.RotarySeekbar_showValue, mShowValue);
             mShowUnit = a.getBoolean(R.styleable.RotarySeekbar_showUnit, mShowUnit);
-            mValueNumDigits = a.getInteger(R.styleable.RotarySeekbar_numDigits, mValueNumDigits);
+            mValueNumDigits = a.getInteger(R.styleable.RotarySeekbar_valueNumDigits, mValueNumDigits);
             mUnitStr = a.getString(R.styleable.RotarySeekbar_unit);
-            mMinValue = a.getFloat(R.styleable.RotarySeekbar_minValue, mMinValue);
-            mMaxValue = a.getFloat(R.styleable.RotarySeekbar_maxValue, mMaxValue);
+            mMinValue = a.getFloat(R.styleable.RotarySeekbar_valueMin, mMinValue);
+            mMaxValue = a.getFloat(R.styleable.RotarySeekbar_valueMax, mMaxValue);
             assert(mMinValue != mMaxValue);
 
             mValue = a.getFloat(R.styleable.RotarySeekbar_value, mValue);
             mValuePosition = ValuePosition.fromId(a.getInt(R.styleable.RotarySeekbar_valuePosition, ValuePosition.Bottom.id));
 
-            mNumSteps = a.getInteger(R.styleable.RotarySeekbar_numSteps, mNumSteps);
+            mNumSteps = a.getInteger(R.styleable.RotarySeekbar_valueNumSteps, mNumSteps);
             if (mNumSteps < 1)
                 mNumSteps = 1;
 
-            mTextColor = a.getColor(R.styleable.RotarySeekbar_valueColor, mTextColor);
+            mTextColor = a.getColor(R.styleable.RotarySeekbar_textColor, mTextColor);
             mTextSize = a.getDimension(R.styleable.RotarySeekbar_textSize, mTextSize);
 
             mTrackValue = a.getBoolean(R.styleable.RotarySeekbar_trackValue, mTrackValue);
 
-            mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sector_openAngle, 2.0f*mSectorHalfOpening);
-            mSectorRotation = a.getInt(R.styleable.RotarySeekbar_sector_rotation, mSectorRotation);
-            mSectorMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sector_minorRadius, mSectorMinRadiusScale);
-            mSectorMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sector_majorRadius, mSectorMajRadiusScale);
-            mSectorColor = a.getColor(R.styleable.RotarySeekbar_sector_backgroundColor, mSectorColor);
-            mValueSectorColor = a.getColor(R.styleable.RotarySeekbar_sector_foregroundColor, mValueSectorColor);
+            mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sectorOpenAngle, 2.0f*mSectorHalfOpening);
+            mSectorRotation = a.getInt(R.styleable.RotarySeekbar_sectorRotation, mSectorRotation);
+            mSectorMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sectorMinorRadius, mSectorMinRadiusScale);
+            mSectorMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sectorMajorRadius, mSectorMajRadiusScale);
+            mSectorColor = a.getColor(R.styleable.RotarySeekbar_sectorBackgroundColor, mSectorColor);
+            mValueSectorColor = a.getColor(R.styleable.RotarySeekbar_sectorForegroundColor, mValueSectorColor);
 
             mShowTicks = a.getBoolean(R.styleable.RotarySeekbar_showTicks, mShowTicks);
-            mSubtractTicks = a.getBoolean(R.styleable.RotarySeekbar_subtractTicks, mSubtractTicks);
-            mTickMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticks_minorRadius, mTickMinRadiusScale);
-            mTickMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticks_majorRadius, mTickMajRadiusScale);
-            mTicksWidth = a.getDimension(R.styleable.RotarySeekbar_ticks_thickness, mTicksWidth);
-            mTicksSubtractWidth = a.getDimension(R.styleable.RotarySeekbar_ticks_subtractionThickness, mTicksSubtractWidth);
-            mTicksColor = a.getColor(R.styleable.RotarySeekbar_ticks_color, mTicksColor);
+            mSubtractTicks = a.getBoolean(R.styleable.RotarySeekbar_ticksSubtract, mSubtractTicks);
+            mTickMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticksMinorRadius, mTickMinRadiusScale);
+            mTickMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_ticksMajorRadius, mTickMajRadiusScale);
+            mTicksWidth = a.getDimension(R.styleable.RotarySeekbar_ticksThickness, mTicksWidth);
+            mTicksSubtractWidth = a.getDimension(R.styleable.RotarySeekbar_ticksSubtractionThickness, mTicksSubtractWidth);
+            mTicksColor = a.getColor(R.styleable.RotarySeekbar_ticksColor, mTicksColor);
             mNumTicks = a.getInteger(R.styleable.RotarySeekbar_numTicks, mNumTicks);
 
             mShowNeedle = a.getBoolean(R.styleable.RotarySeekbar_showNeedle, mShowNeedle);
-            mNeedleColor = a.getColor(R.styleable.RotarySeekbar_needle_color, mNeedleColor);
-            mNeedleWidth = a.getDimension(R.styleable.RotarySeekbar_needle_thickness, mNeedleWidth);
-            mNeedleRadius = a.getFloat(R.styleable.RotarySeekbar_needle_radius, mNeedleRadius);
+            mNeedleColor = a.getColor(R.styleable.RotarySeekbar_needleColor, mNeedleColor);
+            mNeedleWidth = a.getDimension(R.styleable.RotarySeekbar_needleThickness, mNeedleWidth);
+            mNeedleRadius = a.getFloat(R.styleable.RotarySeekbar_needleRadius, mNeedleRadius);
 
         } finally {
             a.recycle();
