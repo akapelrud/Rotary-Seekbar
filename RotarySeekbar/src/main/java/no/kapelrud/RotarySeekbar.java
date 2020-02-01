@@ -85,6 +85,8 @@ public class RotarySeekbar extends View {
     private float mTicksSubtractWidth = dpToPx(2);
     private float mNeedleRadius = 1.0f;
 
+    private float mOverlayBorderMargin = dpToPx(4);
+
     private Rect mOverlayGlobalBounds = new Rect();
     private final int mOverlaySizeDP = 192; // size of overlay in dp-s.
 
@@ -180,6 +182,8 @@ public class RotarySeekbar extends View {
             mNeedleWidth = a.getDimension(R.styleable.RotarySeekbar_needleThickness, mNeedleWidth);
             mNeedleRadius = a.getFloat(R.styleable.RotarySeekbar_needleRadius, mNeedleRadius);
 
+            mOverlayBorderMargin = a.getDimension(R.styleable.RotarySeekbar_overlayBorderMargin, mOverlayBorderMargin);
+
         } finally {
             a.recycle();
         }
@@ -215,7 +219,7 @@ public class RotarySeekbar extends View {
 
         mOverlaySeekbarProxy = new RotarySeekbarDrawable();
         mOverlay = new LayerDrawable(new Drawable[]{
-                getResources().getDrawable(R.drawable.container_dropshadow),
+                getResources().getDrawable(R.drawable.overlay_dropshadow),
                 mOverlaySeekbarProxy
         });
 
@@ -344,7 +348,8 @@ public class RotarySeekbar extends View {
         // The overlay's bounds is calculated upon layout to get the proper global position of this view.
     }
 
-    public float clampRotation(float rotation) { // TODO: should allow rotation == 360.
+    public float clampRotation(float rotation) {
+        // TODO: should allow rotation == 360.
         rotation %= 360;
         if(rotation < 0) rotation+=360;
         return rotation;
@@ -674,17 +679,17 @@ public class RotarySeekbar extends View {
         mOverlayGlobalBounds.bottom = overlayHeight;
 
         int posX, posY;
-        if(centerX < overlayWidth/2)
-            posX = 0; // at left edge
-        else if(centerX > (rootWidth-overlayWidth/2))
-            posX = rootWidth-overlayWidth; // push in from right
+        if(centerX < (overlayWidth/2+mOverlayBorderMargin))
+            posX = (int)mOverlayBorderMargin; // at left edge
+        else if(centerX > (rootWidth-overlayWidth/2-mOverlayBorderMargin))
+            posX = rootWidth-overlayWidth-(int)mOverlayBorderMargin; // push in from right
         else
             posX = centerX-overlayWidth/2;
 
-        if(centerY < overlayHeight/2)
-            posY = 0; // at top edge
-        else if(centerY > (rootHeight-overlayHeight/2))
-            posY = rootHeight-overlayHeight; // push in from bottom
+        if(centerY < (overlayHeight/2+mOverlayBorderMargin))
+            posY = (int)mOverlayBorderMargin; // at top edge
+        else if(centerY > (rootHeight-overlayHeight/2-mOverlayBorderMargin))
+            posY = rootHeight-overlayHeight-(int)mOverlayBorderMargin; // push in from bottom
         else
             posY = centerY-overlayHeight/2;
 

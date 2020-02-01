@@ -88,5 +88,8 @@
 
         <!-- The major radius of the needle indicator line. -->
         <attr name="needleRadius" format="float" />
+
+        <!-- The margin between the zoomed on-touch view and the screen edges. Default=4dp -->
+        <attr name="overlayBorderMargin" format="dimension" />
     </declare-styleable>
 </resources>
