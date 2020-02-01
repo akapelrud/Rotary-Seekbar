@@ -189,7 +189,6 @@ public class RotarySeekbar extends View {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        Log.d(TAG, "Saving instance state");
         Bundle bundle = new Bundle();
         bundle.putParcelable("instanceState", super.onSaveInstanceState());
         bundle.putFloat("value", mValue);
@@ -295,9 +294,10 @@ public class RotarySeekbar extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        if(!changed)
-            return;
-
+        //if(!changed) return;
+            /* this short circuit wasn't correct; while the left an top values might not have
+             * changed, the global position (getLocationOnScreen()) might actually have changed.
+             */
         RectF bounds = mLayedOutSeekbar.getBounds();
         float aspectRatio = bounds.width()/bounds.height();
         calculateOverlayBounds(aspectRatio);
@@ -312,6 +312,25 @@ public class RotarySeekbar extends View {
     }
 
     @Override
+    public void onWindowSystemUiVisibilityChanged(int visible) {
+        super.onWindowSystemUiVisibilityChanged(visible);
+
+        if (0 != (visible &
+                    (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN))
+        ) {
+            requestLayout();
+            /* Sometimes onLayout() isn't called when, say, the navbar is hidden. I suspect that
+             * e.g. ConstraintLayout might move the global screen position of views without actually
+             * calling onLayout() for the child views, as the position within the container hasn't
+             * changed.
+             */
+        }
+    }
+
+    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         float xpad = (float)(getPaddingLeft()+getPaddingRight());
         float ypad = (float)(getPaddingTop()+getPaddingBottom());
@@ -322,7 +341,7 @@ public class RotarySeekbar extends View {
         bounds.offsetTo(getPaddingLeft(), getPaddingTop());
         mLayedOutSeekbar = new RotarySeekbarImpl(bounds);
 
-        // Overlay size is calculated on layout to get the proper global position of this view.
+        // The overlay's bounds is calculated upon layout to get the proper global position of this view.
     }
 
     public float clampRotation(float rotation) { // TODO: should allow rotation == 360.
@@ -632,9 +651,10 @@ public class RotarySeekbar extends View {
     }
 
     private void calculateOverlayBounds(float aspectRatio) {
-        // TODO: fix vertical offset when fullscreen?
+        //Log.d("calculateOverlayBounds", getResources().getResourceName(getId()));
         Rect visibleRect = new Rect();
-        getGlobalVisibleRect(visibleRect);
+        getGlobalVisibleRect(visibleRect);//, globalOffset);
+        //Log.d("calculateOverlayBounds", "getGlobalVisibleRect("+visibleRect.left+", "+visibleRect.top+")");
 
         View root = getRootView();
         int rootWidth = root.getWidth();
@@ -642,10 +662,12 @@ public class RotarySeekbar extends View {
 
         int centerX = visibleRect.centerX() + (getPaddingLeft()-getPaddingRight());
         int centerY = visibleRect.centerY() + (getPaddingTop()-getPaddingBottom());
+        //Log.d("calculateOverlayBounds", "center: ("+centerX+", "+centerY+")");
 
         int overlayHeight = dpToPx(mOverlaySizeDP);
         int overlayWidth = (int)(overlayHeight*aspectRatio);
         // TODO: make sure overlay size is not larger than screen:
+        //Log.d("calculateOverlayBounds", "overlayWidth, overlayHeight: "+overlayWidth+",\t"+overlayHeight);
 
         mOverlayGlobalBounds.left = mOverlayGlobalBounds.top = 0; // to avoid bugs below.
         mOverlayGlobalBounds.right = overlayWidth;
@@ -666,6 +688,7 @@ public class RotarySeekbar extends View {
         else
             posY = centerY-overlayHeight/2;
 
+        //Log.d("calculateOverlayBounds", "overlay pos("+posX+", "+posY+")\n");
         mOverlayGlobalBounds.offsetTo(posX, posY);
     }
 
@@ -681,7 +704,8 @@ public class RotarySeekbar extends View {
 
     class RotarySeekbarDrawable extends Drawable {
 
-        public RotarySeekbarDrawable() {
+        public RotarySeekbarDrawable()
+        {
             super();
         }
 
