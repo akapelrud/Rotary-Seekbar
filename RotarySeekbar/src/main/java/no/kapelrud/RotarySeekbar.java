@@ -67,7 +67,9 @@ public class RotarySeekbar extends View {
 
     private boolean mShowValue = true;
     private boolean mShowNeedle = true;
+    private boolean mShowKnob = true;
     private boolean mShowTicks = true;
+    private boolean mShowSector = true;
     private boolean mSubtractTicks = true;
     private boolean mShowUnit = true;
 
@@ -166,9 +168,11 @@ public class RotarySeekbar extends View {
             mTextSize = a.getDimension(R.styleable.RotarySeekbar_textSize, mTextSize);
 
             mTrackValue = a.getBoolean(R.styleable.RotarySeekbar_trackValue, mTrackValue);
+            mShowKnob = a.getBoolean(R.styleable.RotarySeekbar_showKnob, mShowKnob);
             mKnobRadius = a.getFloat(R.styleable.RotarySeekbar_knobRadius, mKnobRadius);
             mKnobColor = a.getColor(R.styleable.RotarySeekbar_knobColor, mKnobColor);
 
+            mShowSector = a.getBoolean(R.styleable.RotarySeekbar_showSector, mShowSector);
             mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sectorOpenAngle, 2.0f*mSectorHalfOpening);
             mSectorRotation = a.getInt(R.styleable.RotarySeekbar_sectorRotation, mSectorRotation);
             mSectorMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sectorMinorRadius, mSectorMinRadiusScale);
@@ -961,8 +965,10 @@ public class RotarySeekbar extends View {
                 rot += mSectorRotation;
             canvas.rotate(rot, mSeekbarCenter.x, mSeekbarCenter.y);
 
-            canvas.drawPath(mSectorPath, mSectorPaint);
-            canvas.drawPath(mValuePath, mValueSectorPaint);
+            if(mShowSector) {
+                canvas.drawPath(mSectorPath, mSectorPaint);
+                canvas.drawPath(mValuePath, mValueSectorPaint);
+            }
 
             if(mShowTicks && mNumTicks > 0) {
                 float tickAngle = (270- mSectorHalfOpening)*(float)Math.PI/180.0f;
@@ -978,7 +984,7 @@ public class RotarySeekbar extends View {
                 }
             }
 
-            final boolean drawKnob = mKnobRadius > 0.01f;
+            final boolean drawKnob = mShowKnob && mKnobRadius > 0.01f;
             if(mNeedleOnTop && drawKnob)
                 canvas.drawCircle(mSeekbarCenter.x, mSeekbarCenter.y, mRadius * mKnobRadius, mKnobPaint);
 

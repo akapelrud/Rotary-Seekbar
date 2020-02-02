@@ -3,6 +3,14 @@
     <declare-styleable name="RotarySeekbar">
         <attr name="showValue" format="boolean" />
         <attr name="showUnit" format="boolean" />
+        <attr name="showKnob" format="boolean" />
+        <attr name="showSector" format="boolean" />
+
+        <!-- Enable painting of indicator needle -->
+        <attr name="showNeedle" format="boolean" />
+
+        <!-- Enable radial ticks -->
+        <attr name="showTicks" format="boolean" />
 
         <!-- Default value -->
         <attr name="value" format="float" />
@@ -59,9 +67,6 @@
         <!-- The primary indication color of the swept arc from minValue to the current value -->
         <attr name="sectorForegroundColor" format="color" />
 
-        <!-- Enable radial ticks -->
-        <attr name="showTicks" format="boolean" />
-
         <!-- The relative minor radius of the radial tick lines -->
         <attr name="ticksMinorRadius" format="float" />
         <!-- The relative major radius of the radial tick lines -->
@@ -82,9 +87,6 @@
 
         <!-- Number of ticks to paint around the value sector. -->
         <attr name="numTicks" format="integer" />
-
-        <!-- Enable painting of indicator needle -->
-        <attr name="showNeedle" format="boolean" />
 
         <!-- The color of the needle -->
         <attr name="needleColor" format="color" />
