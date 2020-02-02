@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,6 +55,9 @@ public class RotarySeekbar extends View {
     private float mTextWidth = 0.0f;
     private float mTextHeight = 0.0f;
 
+    private boolean mNeedleOnTop = true;
+    private float mKnobRadius = 0.3f;
+
     private int mSectorRotation = 0; // degrees. Extra rotation of the Seekbar. User set.
     private float mSectorHalfOpening = 30; // degrees
     private float mSectorMinRadiusScale = 0.4f;
@@ -74,6 +76,7 @@ public class RotarySeekbar extends View {
 
     private int mNumTicks = 2; // +1 sections
 
+    private int mKnobColor = 0xff666666;
     private int mTextColor = 0xff000000;
     private int mSectorColor = 0xffdddddd;
     private int mValueSectorColor = 0xffaaaaaa;
@@ -83,7 +86,9 @@ public class RotarySeekbar extends View {
     private float mNeedleWidth = dpToPx(4);
     private float mTicksWidth = dpToPx(4);
     private float mTicksSubtractWidth = dpToPx(2);
-    private float mNeedleRadius = 1.0f;
+
+    private float mNeedleMinorRadius = 0.0f;
+    private float mNeedleMajorRadius = 1.0f;
 
     private float mOverlayBorderMargin = dpToPx(4);
 
@@ -123,6 +128,7 @@ public class RotarySeekbar extends View {
 
     private Paint mSectorPaint;
     private Paint mValueSectorPaint;
+    private Paint mKnobPaint;
 
     private GestureDetector mDetector;
     private OnValueChangedListener mListener = null;
@@ -160,6 +166,8 @@ public class RotarySeekbar extends View {
             mTextSize = a.getDimension(R.styleable.RotarySeekbar_textSize, mTextSize);
 
             mTrackValue = a.getBoolean(R.styleable.RotarySeekbar_trackValue, mTrackValue);
+            mKnobRadius = a.getFloat(R.styleable.RotarySeekbar_knobRadius, mKnobRadius);
+            mKnobColor = a.getColor(R.styleable.RotarySeekbar_knobColor, mKnobColor);
 
             mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sectorOpenAngle, 2.0f*mSectorHalfOpening);
             mSectorRotation = a.getInt(R.styleable.RotarySeekbar_sectorRotation, mSectorRotation);
@@ -180,7 +188,10 @@ public class RotarySeekbar extends View {
             mShowNeedle = a.getBoolean(R.styleable.RotarySeekbar_showNeedle, mShowNeedle);
             mNeedleColor = a.getColor(R.styleable.RotarySeekbar_needleColor, mNeedleColor);
             mNeedleWidth = a.getDimension(R.styleable.RotarySeekbar_needleThickness, mNeedleWidth);
-            mNeedleRadius = a.getFloat(R.styleable.RotarySeekbar_needleRadius, mNeedleRadius);
+            mNeedleMinorRadius = a.getFloat(R.styleable.RotarySeekbar_needleMinorRadius, mNeedleMinorRadius);
+            mNeedleMajorRadius = a.getFloat(R.styleable.RotarySeekbar_needleMajorRadius, mNeedleMajorRadius);
+
+            mNeedleOnTop = a.getBoolean(R.styleable.RotarySeekbar_needleOnTop, mNeedleOnTop);
 
             mOverlayBorderMargin = a.getDimension(R.styleable.RotarySeekbar_overlayBorderMargin, mOverlayBorderMargin);
 
@@ -240,6 +251,10 @@ public class RotarySeekbar extends View {
         mValueSectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mValueSectorPaint.setStyle(Paint.Style.FILL);
         mValueSectorPaint.setColor(mValueSectorColor);
+
+        mKnobPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mKnobPaint.setStyle(Paint.Style.FILL);
+        mKnobPaint.setColor(mKnobColor);
 
         mDetector = new GestureDetector(RotarySeekbar.this.getContext(), new mGestureListener());
         mDetector.setIsLongpressEnabled(false);
@@ -963,14 +978,25 @@ public class RotarySeekbar extends View {
                 }
             }
 
+            final boolean drawKnob = mKnobRadius > 0.01f;
+            if(mNeedleOnTop && drawKnob)
+                canvas.drawCircle(mSeekbarCenter.x, mSeekbarCenter.y, mRadius * mKnobRadius, mKnobPaint);
+
             if(mShowNeedle) {
                 final float needleAngle = mRotation * (float) Math.PI / 180.f; // convert to radians
-                canvas.drawLine(mSeekbarCenter.x, mSeekbarCenter.y,
-                        mSeekbarCenter.x + mRadius * mNeedleRadius * (float) Math.cos(needleAngle),
-                        mSeekbarCenter.y - mRadius * mNeedleRadius * (float) Math.sin(needleAngle),
+                final float cosNA = (float)Math.cos(needleAngle);
+                final float sinNA = (float)Math.sin(needleAngle);
+                canvas.drawLine(
+                        mSeekbarCenter.x + mRadius * mNeedleMinorRadius * cosNA,
+                        mSeekbarCenter.y - mRadius * mNeedleMinorRadius * sinNA,
+                        mSeekbarCenter.x + mRadius * mNeedleMajorRadius * cosNA,
+                        mSeekbarCenter.y - mRadius * mNeedleMajorRadius * sinNA,
                         mNeedlePaint
                 );
             }
+
+            if(!mNeedleOnTop && drawKnob)
+                canvas.drawCircle(mSeekbarCenter.x, mSeekbarCenter.y, mRadius * mKnobRadius, mKnobPaint);
 
             canvas.rotate(-rot, mSeekbarCenter.x, mSeekbarCenter.y);
             if(mShowValue)

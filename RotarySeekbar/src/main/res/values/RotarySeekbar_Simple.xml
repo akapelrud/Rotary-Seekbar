@@ -5,7 +5,7 @@
         <item name="textSize">20sp</item>
         <item name="ticksColor">#ff006699</item>
         <item name="needleColor">#ff880000</item>
-        <item name="needleRadius">0.8</item>
+        <item name="needleMajorRadius">0.8</item>
         <item name="ticksMinorRadius">0.8</item>
         <item name="ticksMajorRadius">1.0</item>
         <item name="sectorMinorRadius">0.4</item>

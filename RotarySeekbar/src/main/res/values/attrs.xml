@@ -35,6 +35,12 @@
         <!-- Notify listeners of live changes -->
         <attr name="trackValue" format="boolean" />
 
+        <!-- The relative radius of the central knob. Less than 0.01f disables the central knob -->
+        <attr name="knobRadius" format="float" />
+
+        <!-- The color of the central knob -->
+        <attr name="knobColor" format="color" />
+
         <!-- The opening angle of the value selection section. Set to 0 for a full circle knob -->
         <attr name="sectorOpenAngle" format="float" />
 
@@ -42,9 +48,9 @@
         the bottom, 90²:towards the left, 180²:towards the top, 270²:towards the right -->
         <attr name="sectorRotation" format="integer" />
 
-        <!-- Sets the minor radius of the sector arc, relative to the size of the view. -->
+        <!-- Sets the relative  minor radius of the sector arc, relative to the size of the view. -->
         <attr name="sectorMinorRadius" format="float" />
-        <!-- Sets the major radius of the sector arc, relative to the size of the view. -->
+        <!-- Sets the relative major radius of the sector arc, relative to the size of the view. -->
         <attr name="sectorMajorRadius" format="float" />
 
         <!-- The indication color of the swept arc from the current value to the max value -->
@@ -56,9 +62,9 @@
         <!-- Enable radial ticks -->
         <attr name="showTicks" format="boolean" />
 
-        <!-- The minor radius of the radial tick lines -->
+        <!-- The relative minor radius of the radial tick lines -->
         <attr name="ticksMinorRadius" format="float" />
-        <!-- The major radius of the radial tick lines -->
+        <!-- The relative major radius of the radial tick lines -->
         <attr name="ticksMajorRadius" format="float" />
 
         <!-- The indication color used for the ticks -->
@@ -86,8 +92,14 @@
         <!-- The tickness of the needle line -->
         <attr name="needleThickness" format="dimension" />
 
-        <!-- The major radius of the needle indicator line. -->
-        <attr name="needleRadius" format="float" />
+        <!-- The relative minor radius of the needle indicator line. (Default=0.0) -->
+        <attr name="needleMinorRadius" format="float" />
+
+        <!-- The relative major radius of the needle indicator line. (Default=1.0) -->
+        <attr name="needleMajorRadius" format="float" />
+
+        <!-- Draw needle on top of the central knob. -->
+        <attr name="needleOnTop" format="boolean" />
 
         <!-- The margin between the zoomed on-touch view and the screen edges. Default=4dp -->
         <attr name="overlayBorderMargin" format="dimension" />
