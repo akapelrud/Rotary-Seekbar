@@ -46,12 +46,13 @@ RotarySeekbar (aka. a knob) is an interactiv View for Android that upon touch en
 </details>
 
 ## Example
-First image shows three widget instances in a horizontal layout. One with opening facing left, one facing right, and with no opening. All aspecs of the rotary knob is customizable via xml; like the needle (size, color, length, etc.), the sectors (radial length, color, etc.) and ticks (thickness, length, color, radial size and position, etc.).
+The first image shows the demo application with 16 differently styled RotarySeekbars. All of these have been customized through the `.xml` layout file.
 
-![example 1](https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/screenshot_01_cropped.png)
+<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app.png" width="50%" />
 
 Pressing either of the widgets will enlarge the view of the component, making it easier to choose a value while still having the component visible.
 
-![example 2](https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/screenshot_02_cropped.png)
-![example 3](https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/screenshot_03_cropped.png)
-![example 4](https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/screenshot_04_cropped.png)
+<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_01.png" width="23%" />
+<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_02.png" width="23%" />
+<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_03.png" width="23%" />
+<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_04.png" width="23%" />
