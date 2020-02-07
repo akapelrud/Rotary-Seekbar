@@ -304,7 +304,7 @@ public class RotarySeekbar extends View {
     private String formatValueString(float value) {
         String res = String.format("%." + mValueNumDigits + "f", value);
         if(mShowUnit && mUnitStr != null && !mUnitStr.equals(""))
-            res += " "+mUnitStr;
+            res += mUnitStr;
         return res;
     }
 
