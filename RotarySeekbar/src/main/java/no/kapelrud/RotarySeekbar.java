@@ -1,6 +1,7 @@
 package no.kapelrud;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -22,6 +23,14 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
+import static com.google.android.material.theme.overlay.MaterialThemeOverlay.wrap;
+
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.shape.ShapeAppearanceModel;
+
 /**
  * Rotary Seekbar Widget with zoom-on-touch for Android.
  * Created by André on 18.02.2015.
@@ -31,7 +40,9 @@ import android.view.View;
 public class RotarySeekbar extends View {
 
     private static final String TAG = "RotarySeekbar";
-    //private static final int SCROLL_VELOCITY_DOWNSCALE = 1;
+
+    private static final int DEFAULT_STYLE_RES = R.style.RotarySeekbar_DefaultMaterialStyle;
+
     private static final int SCROLL_ANGULAR_SCALE_DP = 48;
     private final int OVERLAY_PADDING_DP = 12;
     private static final int ROTATION_SNAP_BUFFER = 30;
@@ -85,6 +96,8 @@ public class RotarySeekbar extends View {
     private int mTicksColor = 0xff006699;
     private int mNeedleColor = 0xff880000;
 
+    private int mOverlaySurfaceColor = 0xffffffff;
+
     private float mNeedleWidth = dpToPx(4);
     private float mTicksWidth = dpToPx(4);
     private float mTicksSubtractWidth = dpToPx(2);
@@ -135,19 +148,27 @@ public class RotarySeekbar extends View {
     private GestureDetector mDetector;
     private OnValueChangedListener mListener = null;
 
+    public interface OnValueChangedListener {
+        void onValueChanged(RotarySeekbar sourceSeekbar, float value);
+    }
+
     public RotarySeekbar(Context context) {
         super(context);
         init();
     }
 
-    public interface OnValueChangedListener {
-        void onValueChanged(RotarySeekbar sourceSeekbar, float value);
+    public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet)
+    {
+        this(context, attributeSet, R.attr.sliderStyle);
     }
 
-    public RotarySeekbar(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
+    public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr) {
+        super(wrap(context, attributeSet, defStyleAttr, DEFAULT_STYLE_RES), attributeSet, defStyleAttr);
 
-        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RotarySeekbar, 0, 0);
+        // get the correctly themed context
+        context = getContext();
+
+        final TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RotarySeekbar, defStyleAttr, DEFAULT_STYLE_RES);
         try{
             mShowValue = a.getBoolean(R.styleable.RotarySeekbar_showValue, mShowValue);
             mShowUnit = a.getBoolean(R.styleable.RotarySeekbar_showUnit, mShowUnit);
@@ -171,6 +192,8 @@ public class RotarySeekbar extends View {
             mShowKnob = a.getBoolean(R.styleable.RotarySeekbar_showKnob, mShowKnob);
             mKnobRadius = a.getFloat(R.styleable.RotarySeekbar_knobRadius, mKnobRadius);
             mKnobColor = a.getColor(R.styleable.RotarySeekbar_knobColor, mKnobColor);
+
+            mOverlaySurfaceColor = a.getColor(R.styleable.RotarySeekbar_overlaySurfaceColor, mOverlaySurfaceColor);
 
             mShowSector = a.getBoolean(R.styleable.RotarySeekbar_showSector, mShowSector);
             mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sectorOpenAngle, 2.0f*mSectorHalfOpening);
@@ -232,11 +255,25 @@ public class RotarySeekbar extends View {
     private void init() {
         setLayerToSW(this);
 
-        mOverlaySeekbarProxy = new RotarySeekbarDrawable();
+        mOverlaySeekbarProxy = new RotarySeekbarDrawable(); // uses mOverlaySeekbar for drawing
+
+        ShapeAppearanceModel.Builder builder = ShapeAppearanceModel.builder();
+        builder.setAllCorners(CornerFamily.ROUNDED, dpToPx(20));
+        MaterialShapeDrawable materialOverlay = new MaterialShapeDrawable(builder.build());
+        // TODO: fix elevation shadow. It doesn't appear at all.
+        /*materialOverlay.initializeElevationOverlay(getContext());
+        materialOverlay.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_DEFAULT);
+        materialOverlay.setElevation(dpToPx(4));*/
+        materialOverlay.setStroke(dpToPx(2), 0x66000000);
+        materialOverlay.setFillColor(ColorStateList.valueOf(mOverlaySurfaceColor));
         mOverlay = new LayerDrawable(new Drawable[]{
-                getResources().getDrawable(R.drawable.overlay_dropshadow),
+                materialOverlay,
                 mOverlaySeekbarProxy
         });
+
+        // Make space for elevation shadow. Untested; this might clip the layer anyway.
+        /*final int pad = dpToPx(OVERLAY_PADDING_DP);
+        mOverlay.setLayerInset(0, pad, pad, pad, pad);*/
 
         checkValueBounds();
         mValue = snapValueToSteps(mValue);
@@ -454,8 +491,17 @@ public class RotarySeekbar extends View {
         return h;
     }
 
-    public float getTextOffset(float textSize) {
-        return 0.5f * (textSize + OPENING_TEXT_MARGIN) / (float) Math.tan(mSectorHalfOpening / 180.0d * Math.PI);
+    public float getTextOffset(float textSize, float expectedRadius) {
+        float offset = OPENING_TEXT_MARGIN+0.5f * (textSize) / (float) Math.tan(mSectorHalfOpening / 180.0d * Math.PI);
+
+        final float expectedKnobRadius = mKnobRadius*expectedRadius;
+        if(mShowKnob && offset < expectedKnobRadius) {
+            offset = expectedKnobRadius + OPENING_TEXT_MARGIN;
+        }
+
+        if (offset > expectedRadius)
+            offset = expectedRadius + OPENING_TEXT_MARGIN;
+        return offset;
     }
 
     /**
@@ -483,9 +529,7 @@ public class RotarySeekbar extends View {
             case Right:
             case Left:
                 if(mShowValue) {
-                    float offset = getTextOffset(mTextSize);
-                    if (offset > 0.5f * w)
-                        offset = 0.5f * w;
+                    float offset = getTextOffset(mTextSize, 0.5f*height);
                     w += (int) (mTextWidth + offset - 0.5f*w);
                 }else
                     w *= 0.5f;
@@ -916,20 +960,16 @@ public class RotarySeekbar extends View {
                         break;
                     case Right:
                         mTextPaint.setTextAlign(Paint.Align.LEFT);
-                        offset = getTextOffset(mTextHeight); // TODO, fix positioning of Seekbar!
                         d = dH;
-                        if (offset > 0.5f * d)
-                            offset = 0.5f * d;
+                        offset = getTextOffset(mTextHeight, 0.5f*d); // TODO, fix positioning of Seekbar!
                         cX -= 0.5f * (mTextWidth + offset - 0.5f * d);
                         mTextX = cX + offset;
                         mTextY = cY - .5f*(mTextPaint.getFontMetrics().descent+mTextPaint.getFontMetrics().ascent);
                         break;
                     case Left:
                         mTextPaint.setTextAlign(Paint.Align.RIGHT);
-                        offset = getTextOffset(mTextHeight);
                         d = dH;
-                        if (offset > 0.5f * d)
-                            offset = 0.5f * d;
+                        offset = getTextOffset(mTextHeight, 0.5f*d);
                         cX += 0.5f * (mTextWidth + offset - 0.5f * d);
                         mTextX = cX - offset;
                         mTextY = cY - .5f*(mTextPaint.getFontMetrics().descent+mTextPaint.getFontMetrics().ascent);
