@@ -61,14 +61,13 @@
         <!-- Sets the relative major radius of the sector arc, relative to the size of the view. -->
         <attr name="sectorMajorRadius" format="float" />
 
-        <!-- The indication color of the swept arc from the current value to the max value -->
-        <attr name="sectorBackgroundColor" format="color" />
-
         <!-- The background color of zoomed overlay view -->
         <attr name="overlaySurfaceColor" format="color" />
 
+        <!-- The indication color of the swept arc from the current value to the max value -->
+        <attr name="sectorRangeColor" format="color" />
         <!-- The primary indication color of the swept arc from minValue to the current value -->
-        <attr name="sectorForegroundColor" format="color" />
+        <attr name="sectorValueColor" format="color" />
 
         <!-- The relative minor radius of the radial tick lines -->
         <attr name="ticksMinorRadius" format="float" />

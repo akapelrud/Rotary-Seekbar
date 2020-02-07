@@ -200,8 +200,8 @@ public class RotarySeekbar extends View {
             mSectorRotation = a.getInt(R.styleable.RotarySeekbar_sectorRotation, mSectorRotation);
             mSectorMinRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sectorMinorRadius, mSectorMinRadiusScale);
             mSectorMajRadiusScale = a.getFloat(R.styleable.RotarySeekbar_sectorMajorRadius, mSectorMajRadiusScale);
-            mSectorColor = a.getColor(R.styleable.RotarySeekbar_sectorBackgroundColor, mSectorColor);
-            mValueSectorColor = a.getColor(R.styleable.RotarySeekbar_sectorForegroundColor, mValueSectorColor);
+            mSectorColor = a.getColor(R.styleable.RotarySeekbar_sectorRangeColor, mSectorColor);
+            mValueSectorColor = a.getColor(R.styleable.RotarySeekbar_sectorValueColor, mValueSectorColor);
 
             mShowTicks = a.getBoolean(R.styleable.RotarySeekbar_showTicks, mShowTicks);
             mSubtractTicks = a.getBoolean(R.styleable.RotarySeekbar_ticksSubtract, mSubtractTicks);
@@ -225,6 +225,9 @@ public class RotarySeekbar extends View {
         } finally {
             a.recycle();
         }
+
+        if (mNeedleMinorRadius == mNeedleMajorRadius)
+            mNeedleMinorRadius = mNeedleMajorRadius*0.999f; // sometimes the line isn't drawn if they are equal
 
         init();
     }
