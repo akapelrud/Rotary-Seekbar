@@ -52,7 +52,4 @@ The first image shows the demo application with 16 differently styled RotarySeek
 
 Pressing either of the widgets will enlarge the view of the component, making it easier to choose a value while still having the component visible.
 
-<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_01.png" width="23%" />
-<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_02.png" width="23%" />
-<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_03.png" width="23%" />
-<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_04.png" width="23%" />
+<img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_01.png" width="23%" /> <img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_02.png" width="23%" /> <img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_03.png" width="23%" /> <img src="https://raw.githubusercontent.com/akapelrud/Rotary-Seekbar/master/screenshots/Screenshot_demo_app_04.png" width="23%" />
