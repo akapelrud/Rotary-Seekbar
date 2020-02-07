@@ -24,6 +24,14 @@ RotarySeekbar (aka. a knob) is an interactiv View for Android that upon touch en
         // implementation 'com.github.akapelrud:Rotary-Seekbar:master-SNAPSHOT'
     }
     ```
+- Step 3. Add the RotarySeekbar to your layout file, c.f. [the attribute definition](../master/RotarySeekbar/src/main/res/values/attrs.xml) and the demo app's layout file: [DEMO layout](../master/Examples/Palette/app/src/main/res/layout/activity_main.xml)
+- Step 4. Implement the `RotarySeekbar.OnValueChangeListener` interface, and register using `setValueChangeListener()`.
+
+    ```
+    public interface OnValueChangedListener {
+        void onValueChanged(RotarySeekbar sourceSeekbar, float value);
+    }
+    ```
 
 ### 
 <details>
