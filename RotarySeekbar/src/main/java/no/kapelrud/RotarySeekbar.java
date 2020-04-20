@@ -348,6 +348,26 @@ public class RotarySeekbar extends View {
         listener.onValueChanged(this, mValue);
     }
 
+    public float getValue() {
+        return mValue;
+    }
+
+    public int getCurrentStep() {
+        return Math.round((mValue-mMinValue)/(mMaxValue-mMinValue)*mNumSteps);
+    }
+
+    public int getNumSteps() {
+        return mNumSteps;
+    }
+
+    public float getMinValue() {
+        return mMinValue;
+    }
+
+    public float getMaxValue() {
+        return mMaxValue;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
