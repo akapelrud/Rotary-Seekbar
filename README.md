@@ -1,5 +1,5 @@
 # RotarySeekbar
-RotarySeekbar (aka. a knob) is an interactiv View for Android that upon touch enlarges the view (_overlay zooming_) thus making it easy to adjust the value of the knob while actually seeing what you are doing. The view responds to any touch within its' bounds, i.e. **not** relying on a precise touch of a tiny knob handle widget (c.f. [Fitt's law](https://en.wikipedia.org/wiki/Fitts%27s_law)). The rotation of the knob is based on amplifying the finger movement based on the distance from the center of the knob, giving the user both fine and coarse control of the value selection. The overlay zooming and movement amplification makes it possible to put compact rotary seekbars (e.g. 48dp x 48dp) in your gui, while still providing sufficient visual feedback and control granularity to the end user.
+RotarySeekbar (aka. a knob) is an interactive View for Android that upon touch enlarges the view (_overlay zooming_) thus making it easy to adjust the value of the knob while actually seeing what you are doing. The view responds to any touch within its' bounds, i.e. **not** relying on a precise touch of a tiny knob handle widget (c.f. [Fitt's law](https://en.wikipedia.org/wiki/Fitts%27s_law)). The rotation of the knob is based on amplifying the finger movement based on the distance from the center of the knob, giving the user both fine and coarse control of the value selection. The overlay zooming and movement amplification makes it possible to put compact rotary seekbars (e.g. 48dp x 48dp) in your gui, while still providing sufficient visual feedback and control granularity to the end user.
 
 ## Usage
  - Step 1. Add jitpack to your root build.gradle, at the end of the repositories list:
@@ -24,8 +24,13 @@ RotarySeekbar (aka. a knob) is an interactiv View for Android that upon touch en
         // implementation 'com.github.akapelrud:Rotary-Seekbar:master-SNAPSHOT'
     }
     ```
-- Step 3. Add the RotarySeekbar to your layout file, c.f. [the attribute definition](../master/RotarySeekbar/src/main/res/values/attrs.xml) and the demo app's layout file: [DEMO layout](../master/Examples/Palette/app/src/main/res/layout/activity_main.xml)
-- Step 4. Implement the `RotarySeekbar.OnValueChangeListener` interface, and register using `setValueChangeListener()`.
+- Step 3. Make sure that you have defined the relevant material design colors in your app's `res/styles.xml` (at least `?attr/primaryColorVariant` is used in Release 1.0. Others might be added later on.):
+
+    ```
+    <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+    ```
+- Step 4. Add the RotarySeekbar to your layout file, c.f. [the attribute definition](../master/RotarySeekbar/src/main/res/values/attrs.xml) and the demo app's layout file: [DEMO layout](../master/Examples/Palette/app/src/main/res/layout/activity_main.xml)
+- Step 5. Implement the `RotarySeekbar.OnValueChangeListener` interface, and register using `setValueChangeListener()`.
 
     ```
     public interface OnValueChangedListener {
