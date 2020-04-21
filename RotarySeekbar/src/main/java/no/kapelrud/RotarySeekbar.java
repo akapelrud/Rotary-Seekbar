@@ -153,19 +153,16 @@ public class RotarySeekbar extends View {
     }
 
     public RotarySeekbar(Context context) {
-        super(context);
-        init();
+        this(context, null);
     }
 
     public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet)
     {
-        this(context, attributeSet, R.attr.sliderStyle);
+        this(context, attributeSet, DEFAULT_STYLE_RES);
     }
 
     public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr) {
         super(wrap(context, attributeSet, defStyleAttr, DEFAULT_STYLE_RES), attributeSet, defStyleAttr);
-
-        // get the correctly themed context
         context = getContext();
 
         final TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RotarySeekbar, defStyleAttr, DEFAULT_STYLE_RES);
