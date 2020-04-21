@@ -352,6 +352,24 @@ public class RotarySeekbar extends View {
         return mValue;
     }
 
+    public void setValue(float value) {
+        mValue = value;
+        checkValueBounds();
+        mValue = snapValueToSteps(mValue);
+        mRotation = valueToRotation();
+        updateText();
+
+        if(!mbScrolling) {
+            if (mLayedOutSeekbar != null)
+                mLayedOutSeekbar.recreatePaths();
+            invalidate();
+        }else {
+            if(mOverlaySeekbar != null)
+                mOverlaySeekbar.recreatePaths();
+            mOverlaySeekbarProxy.invalidateSelf();
+        }
+    }
+
     public int getCurrentStep() {
         return Math.round((mValue-mMinValue)/(mMaxValue-mMinValue)*mNumSteps);
     }
