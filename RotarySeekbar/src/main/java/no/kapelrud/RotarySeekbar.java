@@ -367,6 +367,11 @@ public class RotarySeekbar extends View {
         }
     }
 
+    public void setValueByStep(int step) {
+        // setValue will enforce clamping of the value
+        setValue(mMinValue+step*(mMaxValue-mMinValue)/mNumSteps);
+    }
+
     public int getCurrentStep() {
         return Math.round((mValue-mMinValue)/(mMaxValue-mMinValue)*mNumSteps);
     }
