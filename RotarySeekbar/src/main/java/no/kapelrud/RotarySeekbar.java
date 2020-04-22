@@ -340,7 +340,7 @@ public class RotarySeekbar extends View {
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
 
-    public void setValueChangedListener(OnValueChangedListener listener) {
+    public void setOnValueChangedListener(OnValueChangedListener listener) {
         mListener = listener;
         listener.onValueChanged(this, mValue);
     }
