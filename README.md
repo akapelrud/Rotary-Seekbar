@@ -18,45 +18,34 @@ RotarySeekbar (aka. a knob) is an interactive View for Android that upon touch e
     dependencies {
         // either choose a release (TAG) from github:
         implementation 'com.github.akapelrud:Rotary-Seekbar:TAG'
-	// where TAG = 'vMajor.Minor,Micro', e.g. 'v0.2.1'
+	// where TAG = 'vMajor.Minor,Micro'
 	
-        // or use the current HEAD of e.g. the master branch:
+        // or use the current HEAD of a branch e.g. branch:
         // implementation 'com.github.akapelrud:Rotary-Seekbar:master-SNAPSHOT'
+        // implementation 'com.github.akapelrud:Rotary-Seekbar:develop-SNAPSHOT'
     }
     ```
-- Step 3. Make sure that you have defined the relevant material design colors in your app's `res/styles.xml` (at least `?attr/primaryColorVariant` is used in Release 1.0. Others might be added later on.):
+- Step 3. Make sure that your app theme is based on one of the material design themes, e.g. `values/styles.xml`:
 
     ```
-    <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+    </style>
     ```
 - Step 4. Add the RotarySeekbar to your layout file, c.f. [the attribute definition](../master/RotarySeekbar/src/main/res/values/attrs.xml) and the demo app's layout file: [DEMO layout](../master/Examples/Palette/app/src/main/res/layout/activity_main.xml)
-- Step 5. Implement the `RotarySeekbar.OnValueChangeListener` interface, and register using `setValueChangeListener()`.
+- Step 5. Implement the `RotarySeekbar.OnValueChangeListener` interface, and register using `setOnValueChangeListener()`.
 
     ```
     public interface OnValueChangedListener {
         void onValueChanged(RotarySeekbar sourceSeekbar, float value);
     }
     ```
-
-### 
-<details>
-    <summary>Usage for versions prior to v0.2.1 - [Click to show]</summary>
-	
-    The library can be used by adding a few lines too your project's build.gradle file:  
-    ```
-    repositories {
-        maven {
-            url 'https://github.com/akapelrud/Rotary-Seekbar/raw/master/RotarySeekbar/snapshots'
-        }
-    }
-    dependencies {
-        // 0.1.0 release
-        //implementation 'no.kapelrud:RotaryKnobLibrary:0.1.0:@aar'
-        // 0.2.0 release
-        implementation 'no.kapelrud:RotarySeekbar:0.2.0:@aar'
-    }
-    ```
-</details>
 
 ## Example
 The first image shows the demo application with 16 differently styled RotarySeekbars. All of these have been customized through the `.xml` layout file.
