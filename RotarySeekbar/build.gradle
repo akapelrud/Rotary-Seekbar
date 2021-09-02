@@ -23,7 +23,7 @@ android {
     //buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 22
         targetSdkVersion 31
         versionCode 1
         versionName project.PUBLISH_VERSION
