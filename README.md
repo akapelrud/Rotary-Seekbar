@@ -1,6 +1,8 @@
 # RotarySeekbar
 RotarySeekbar (aka. a knob) is an interactive View for Android that upon touch enlarges the view (_overlay zooming_) thus making it easy to adjust the value of the knob while actually seeing what you are doing. The view responds to any touch within its' bounds, i.e. **not** relying on a precise touch of a tiny knob handle widget (c.f. [Fitt's law](https://en.wikipedia.org/wiki/Fitts%27s_law)). The rotation of the knob is based on amplifying the finger movement based on the distance from the center of the knob, giving the user both fine and coarse control of the value selection. The overlay zooming and movement amplification makes it possible to put compact rotary seekbars (e.g. 48dp x 48dp) in your gui, while still providing sufficient visual feedback and control granularity to the end user.
 
+[![](https://jitpack.io/v/akapelrud/Rotary-Seekbar.svg)](https://jitpack.io/#akapelrud/Rotary-Seekbar)
+
 ## Usage
  - Step 1. Add jitpack to your root build.gradle, at the end of the repositories list:
  
