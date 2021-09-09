@@ -1,3 +1,6 @@
+apply plugin: 'maven'
+group = 'com.github.akapelrud'
+
 buildscript {
     repositories {
         google()
