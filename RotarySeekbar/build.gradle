@@ -3,13 +3,12 @@ apply plugin: 'com.android.library'
 repositories {
     mavenCentral()
     google()
-    jcenter()
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // 1.2 is needed for materialthemeoverlay
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.6.1'
 }
 
 ext {
@@ -19,14 +18,21 @@ ext {
 }
 
 android {
-    compileSdkVersion 31
-    //buildToolsVersion '28.0.3'
+    namespace = 'no.kapelrud'
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName project.PUBLISH_VERSION
     }
+
+    /*publishing{
+        multipleVariants{
+            allVariants()
+            withJavadocs()
+        }
+    }*/
 }
 apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'

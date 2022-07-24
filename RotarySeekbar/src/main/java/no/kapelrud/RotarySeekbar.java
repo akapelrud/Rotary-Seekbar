@@ -35,7 +35,6 @@ import com.google.android.material.shape.ShapeAppearanceModel;
  * Rotary Seekbar Widget with zoom-on-touch for Android.
  * Created by André on 18.02.2015.
  *
- * * See {@link no.kapelrud.R.styleable#RotarySeekbar RotarySeekbar Attributes}.
  */
 public class RotarySeekbar extends View {
 
