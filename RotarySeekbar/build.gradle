@@ -14,7 +14,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'no.kapelrud'
     PUBLISH_ARTIFACT_ID = 'RotarySeekbar'
-    PUBLISH_VERSION = '1.1.0'
+    PUBLISH_VERSION = '1.1.1'
 }
 
 android {
