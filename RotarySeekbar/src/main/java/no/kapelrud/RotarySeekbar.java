@@ -59,7 +59,7 @@ public class RotarySeekbar extends View {
     private int mValueNumDigits = 1;
 
     private String mValueStr;
-    private String mUnitStr = "";
+    private String mUnitStr;
     private float mValue = 50;
     private float mTextSize = spToPx(20);
     private float mTextWidth = 0.0f;
@@ -104,7 +104,7 @@ public class RotarySeekbar extends View {
     private float mNeedleMinorRadius = 0.0f;
     private float mNeedleMajorRadius = 1.0f;
 
-    private float mOverlayBorderMargin = dpToPx(4);
+    private int mOverlayBorderMargin = dpToPx(4);
 
     private Rect mOverlayGlobalBounds = new Rect();
     private final int mOverlaySizeDP = 192; // size of overlay in dp-s.
@@ -155,7 +155,7 @@ public class RotarySeekbar extends View {
         this(context, null);
     }
 
-    public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet)
+    public RotarySeekbar(@NonNull Context context, AttributeSet attributeSet)
     {
         this(context, attributeSet, DEFAULT_STYLE_RES);
     }
@@ -330,12 +330,12 @@ public class RotarySeekbar extends View {
     }
 
     public void setLayerToSW(View v) {
-        if(!v.isInEditMode() && Build.VERSION.SDK_INT >= 11)
+        if(!v.isInEditMode())
             setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     public void setLayerToHW(View v) {
-        if(!v.isInEditMode() && Build.VERSION.SDK_INT >= 11)
+        if(!v.isInEditMode())
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
 
@@ -396,10 +396,6 @@ public class RotarySeekbar extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        //if(!changed) return;
-            /* this short circuit wasn't correct; while the left an top values might not have
-             * changed, the global position (getLocationOnScreen()) might actually have changed.
-             */
         RectF bounds = mLayedOutSeekbar.getBounds();
         float aspectRatio = bounds.width()/bounds.height();
         calculateOverlayBounds(aspectRatio);
@@ -522,7 +518,7 @@ public class RotarySeekbar extends View {
                 if(mShowValue) {
                     int rw = width - (int) mTextWidth;
                     // real width of Seekbar
-                    h = Math.max((rw > 0 ? rw : 0), (int) mTextHeight);
+                    h = Math.max((Math.max(rw, 0)), (int) mTextHeight);
                     // biggest of Seekbar width or text height
                 }else
                     h = width;
@@ -1056,11 +1052,13 @@ public class RotarySeekbar extends View {
                 float tickAngle = (270- mSectorHalfOpening)*(float)Math.PI/180.0f;
                 float tickAngleIncrement = (float)Math.PI/180.0f*(360-2* mSectorHalfOpening)/(mNumTicks-1);
                 for(int i=0; i<mNumTicks; i++) {
+                    final float cosTickAngle = (float)Math.cos(tickAngle-i*tickAngleIncrement);
+                    final float sinTickAngle = (float)Math.sin(tickAngle-i*tickAngleIncrement);
                     canvas.drawLine(
-                            mSeekbarCenter.x+ mRadius *mTickMinRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
-                            mSeekbarCenter.y- mRadius *mTickMinRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
-                            mSeekbarCenter.x+ mRadius *mTickMajRadiusScale*(float)Math.cos(tickAngle-i*tickAngleIncrement),
-                            mSeekbarCenter.y- mRadius *mTickMajRadiusScale*(float)Math.sin(tickAngle-i*tickAngleIncrement),
+                            mSeekbarCenter.x+ mRadius *mTickMinRadiusScale*(float)cosTickAngle,
+                            mSeekbarCenter.y- mRadius *mTickMinRadiusScale*(float)sinTickAngle,
+                            mSeekbarCenter.x+ mRadius *mTickMajRadiusScale*(float)cosTickAngle,
+                            mSeekbarCenter.y- mRadius *mTickMajRadiusScale*(float)sinTickAngle,
                             mTicksPaint
                     );
                 }
