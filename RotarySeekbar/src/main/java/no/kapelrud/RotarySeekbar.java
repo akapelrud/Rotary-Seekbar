@@ -104,10 +104,9 @@ public class RotarySeekbar extends View {
     private float mNeedleMinorRadius = 0.0f;
     private float mNeedleMajorRadius = 1.0f;
 
-    private int mOverlayBorderMargin = dpToPx(4);
-
+    private float mOverlayBorderMargin = dpToPx(4);
     private Rect mOverlayGlobalBounds = new Rect();
-    private final int mOverlaySizeDP = 192; // size of overlay in dp-s.
+    private float mOverlaySizeDP = 192; // size of overlay in dp-s.
 
     private enum ValuePosition {
         Bottom(0),
@@ -190,6 +189,7 @@ public class RotarySeekbar extends View {
             mKnobColor = a.getColor(R.styleable.RotarySeekbar_knobColor, mKnobColor);
 
             mOverlaySurfaceColor = a.getColor(R.styleable.RotarySeekbar_overlaySurfaceColor, mOverlaySurfaceColor);
+            mOverlaySizeDP = a.getDimension(R.styleable.RotarySeekbar_overlaySize, mOverlaySizeDP);
 
             mShowSector = a.getBoolean(R.styleable.RotarySeekbar_showSector, mShowSector);
             mSectorHalfOpening = 0.5f*a.getFloat(R.styleable.RotarySeekbar_sectorOpenAngle, 2.0f*mSectorHalfOpening);
@@ -400,7 +400,7 @@ public class RotarySeekbar extends View {
         float aspectRatio = bounds.width()/bounds.height();
         calculateOverlayBounds(aspectRatio);
 
-        int padding = dpToPx(OVERLAY_PADDING_DP);
+        final int padding = dpToPx(OVERLAY_PADDING_DP);
         RectF overlayBounds = new RectF(0,0,
                 mOverlayGlobalBounds.width()-2*padding,
                 mOverlayGlobalBounds.height()-2*padding);
@@ -592,9 +592,7 @@ public class RotarySeekbar extends View {
 
         int w=0;
         int h=0;
-        //Log.d(TAG, "measurespecs: "+widthMode+", "+heightMode);
 
-        float radii = 0.5f*dpToPx(DEFAULT_SEEKBAR_DIAMETER);
         switch(widthMode) {
             case MeasureSpec.EXACTLY:
                 w = specWidth;
@@ -770,7 +768,7 @@ public class RotarySeekbar extends View {
         int centerY = visibleRect.centerY() + (getPaddingTop()-getPaddingBottom());
         //Log.d("calculateOverlayBounds", "center: ("+centerX+", "+centerY+")");
 
-        int overlayHeight = dpToPx(mOverlaySizeDP);
+        int overlayHeight = dpToPx((int)mOverlaySizeDP);
         int overlayWidth = (int)(overlayHeight*aspectRatio);
         // TODO: make sure overlay size is not larger than screen:
         //Log.d("calculateOverlayBounds", "overlayWidth, overlayHeight: "+overlayWidth+",\t"+overlayHeight);
