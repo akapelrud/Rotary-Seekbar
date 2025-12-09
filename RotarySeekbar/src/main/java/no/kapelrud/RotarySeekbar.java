@@ -159,11 +159,11 @@ public class RotarySeekbar extends View {
         this(context, attributeSet, DEFAULT_STYLE_RES);
     }
 
-    public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr) {
+    public RotarySeekbar(@NonNull Context context, @Nullable AttributeSet attributeSet, int defStyleAttr) {
         this(context, attributeSet, defStyleAttr, DEFAULT_STYLE_RES);
     }
 
-    public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr, int defStyleRes) {
+    public RotarySeekbar(@NonNull Context context, @Nullable AttributeSet attributeSet, int defStyleAttr, int defStyleRes) {
         super(wrap(context, attributeSet, defStyleAttr, defStyleRes), attributeSet, defStyleAttr);
         context = getContext();
 
@@ -1141,3 +1141,4 @@ public class RotarySeekbar extends View {
         }
     }
 }
+
