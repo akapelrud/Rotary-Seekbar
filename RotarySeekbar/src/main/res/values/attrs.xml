@@ -64,6 +64,9 @@
         <!-- The background color of zoomed overlay view -->
         <attr name="overlaySurfaceColor" format="color" />
 
+        <!-- The size of the overlay in dp -->
+        <attr name="overlaySize" format="dimension" />
+
         <!-- The indication color of the swept arc from the current value to the max value -->
         <attr name="sectorRangeColor" format="color" />
         <!-- The primary indication color of the swept arc from minValue to the current value -->
