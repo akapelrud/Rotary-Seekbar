@@ -160,7 +160,11 @@ public class RotarySeekbar extends View {
     }
 
     public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr) {
-        super(wrap(context, attributeSet, defStyleAttr, DEFAULT_STYLE_RES), attributeSet, defStyleAttr);
+        this(context, attributeSet, defStyleAttr, DEFAULT_STYLE_RES);
+    }
+
+    public RotarySeekbar(@NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr, int defStyleRes) {
+        super(wrap(context, attributeSet, defStyleAttr, defStyleRes), attributeSet, defStyleAttr);
         context = getContext();
 
         final TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RotarySeekbar, defStyleAttr, DEFAULT_STYLE_RES);
