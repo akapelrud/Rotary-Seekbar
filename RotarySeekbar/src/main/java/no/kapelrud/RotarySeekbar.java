@@ -168,7 +168,7 @@ public class RotarySeekbar extends View {
         super(wrap(context, attributeSet, defStyleAttr, defStyleRes), attributeSet, defStyleAttr);
         context = getContext();
 
-        final TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RotarySeekbar, defStyleAttr, DEFAULT_STYLE_RES);
+        final TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RotarySeekbar, defStyleAttr, defStyleRes);
         try{
             mShowValue = a.getBoolean(R.styleable.RotarySeekbar_showValue, mShowValue);
             mShowUnit = a.getBoolean(R.styleable.RotarySeekbar_showUnit, mShowUnit);
