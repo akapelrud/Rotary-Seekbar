@@ -12,18 +12,27 @@ dependencies {
 }
 
 ext {
-    PUBLISH_GROUP_ID = 'no.kapelrud'
-    PUBLISH_ARTIFACT_ID = 'RotarySeekbar'
+    //PUBLISH_GROUP_ID = 'no.kapelrud'
+    //PUBLISH_ARTIFACT_ID = 'RotarySeekbar'
     PUBLISH_VERSION = '1.2.0'
+
+    mavDevelopers = ["Ak":"André"]
+    mavSiteUrl = "https://github.com/akapelrud/Rotary-Seekbar"
+    mavGitUrl = mavSiteUrl + '.git'
+    mavProjectName = 'Rotary-Seekbar'
+    //mavPublishToInternalRepo = true
+    //mavRepoInternalUrl = "path/to/internal/repo"
+    mavLibraryLicenses = ["Apache-2.0":'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavLibraryDescription = "A rotary seekbar (knob) view for Android"
 }
 
 android {
     namespace = 'no.kapelrud'
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName project.PUBLISH_VERSION
     }
